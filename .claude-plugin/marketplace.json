@@ -1,11 +1,11 @@
 {
-  "name": "ai-marketplace",
+  "name": "sdui-marketplace",
   "owner": {
-    "name": "sdui-hq"
+    "name": "sdui"
   },
   "metadata": {
-    "description": "A collection of Claude Code plugins for safety and productivity",
-    "version": "1.0.0",
+    "description": "Sdui's marketplace for AI tools",
+    "version": "0.1.0",
     "pluginRoot": "./plugins"
   },
   "plugins": [
@@ -13,7 +13,7 @@
       "name": "command-safety",
       "source": "command-safety",
       "description": "Pre-execution validator that blocks dangerous bash commands before they run",
-      "version": "1.0.0",
+      "version": "0.1.0",
       "license": "MIT",
       "keywords": ["safety", "security", "bash", "validation"],
       "category": "security",
