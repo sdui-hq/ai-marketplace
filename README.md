@@ -7,13 +7,13 @@ Sdui's marketplace for AI tools
 Add this marketplace to Claude Code:
 
 ```bash
-/plugin marketplace add sdui-hq/ai-marketplace
+/plugin marketplace add sdui/ai-marketplace
 ```
 
 Or via CLI:
 
 ```bash
-claude plugin marketplace add sdui-hq/ai-marketplace
+claude plugin marketplace add sdui/ai-marketplace
 ```
 
 ## Available Plugins
