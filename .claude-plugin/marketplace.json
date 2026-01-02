@@ -1,23 +1,20 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "sdui-marketplace",
+  "version": "0.1.0",
+  "description": "Sdui's marketplace for AI tools",
+
   "owner": {
     "name": "sdui"
-  },
-  "metadata": {
-    "description": "Sdui's marketplace for AI tools",
-    "version": "0.1.0",
-    "pluginRoot": "./plugins"
   },
   "plugins": [
     {
       "name": "command-safety",
-      "source": "command-safety",
+      "source": "./plugins/command-safety",
       "description": "Pre-execution validator that blocks dangerous bash commands before they run",
       "version": "0.1.0",
-      "license": "MIT",
       "keywords": ["safety", "security", "bash", "validation"],
-      "category": "security",
-      "strict": true
+      "category": "security"
     }
   ]
 }
