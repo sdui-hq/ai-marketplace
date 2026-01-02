@@ -26,12 +26,15 @@ This plugin intercepts all Bash tool calls and validates them against dangerous 
 
 ## Installation
 
+Via marketplace:
 ```bash
-# Clone or copy to your plugins directory
-cp -r command-safety ~/.claude/plugins/
+/plugin marketplace add sdui-hq/ai-marketplace
+/plugin install command-safety@ai-marketplace
+```
 
-# Or use with --plugin-dir for testing
-claude --plugin-dir /path/to/command-safety
+For local development:
+```bash
+claude --plugin-dir /path/to/ai-marketplace/plugins/command-safety
 ```
 
 ## Requirements

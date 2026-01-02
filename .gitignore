@@ -1,4 +1,14 @@
-.claude
+# Claude Code settings (local/user-specific)
+.claude/settings.local.json
+.claude/logs/
+.claude/*.local.md
+
+# Python
 *.pyc
-docs/
+__pycache__/
+.pytest_cache/
+.venv/
+
 .python-version
+docs/plans/
+uv.lock

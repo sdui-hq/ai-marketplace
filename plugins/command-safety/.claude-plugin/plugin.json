@@ -1,0 +1,11 @@
+{
+  "name": "command-safety",
+  "version": "0.1.0",
+  "description": "Pre-execution validator that blocks dangerous bash commands before they run",
+  "author": {
+    "name": "sdui-hq",
+    "url": "https://sdui.de"
+  },
+  "license": "MIT",
+  "keywords": ["safety", "security", "bash", "validation", "hooks"]
+}
