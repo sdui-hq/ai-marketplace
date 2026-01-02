@@ -79,39 +79,85 @@ def match_pattern(pattern: dict, command: str) -> bool:
     return False
 
 
-# Dangerous command patterns (MVP)
+# Dangerous command patterns (declarative syntax)
 DANGEROUS_PATTERNS = {
     "file_destruction": [
-        # Unix/Mac: rm -rf with dangerous targets
-        r"rm\s+(-[a-zA-Z]*r[a-zA-Z]*f[a-zA-Z]*|-[a-zA-Z]*f[a-zA-Z]*r[a-zA-Z]*)\s+(/|~|\*|\.\.)",
-        r"rm\s+(-rf|-fr|-r\s+-f|-f\s+-r)\s+(/|~|\*|\.\.)",
+        # Unix: rm with recursive + force targeting dangerous paths
+        {
+            "type": "command_flags_target",
+            "command": "rm",
+            "requires_flags": ["r", "f"],
+            "targets": ["/", "~", "*", ".."],
+        },
         # Windows: del with force/subdirs/quiet
-        r"del\s+/[fsq]+\s+/[fsq]+",
-        r"del\s+/f\s+/s",
-        # Windows: rmdir/rd with /s /q
-        r"(rmdir|rd)\s+/s\s+/q",
-        r"(rmdir|rd)\s+/s.*(/q|$)",
+        {
+            "type": "command_args",
+            "command": "del",
+            "args_contain": ["/f", "/s"],
+        },
+        # Windows: rmdir with /s /q
+        {
+            "type": "command_flags_target",
+            "command": "rmdir",
+            "requires_flags": ["s", "q"],
+            "flag_prefix": "/",
+            "targets": None,
+        },
+        # Windows: rd with /s /q
+        {
+            "type": "command_flags_target",
+            "command": "rd",
+            "requires_flags": ["s", "q"],
+            "flag_prefix": "/",
+            "targets": None,
+        },
     ],
     "disk_overwrite": [
-        # Unix: dd writing to device
-        r"dd\s+.*if=.*of=/dev/",
-        r"dd\s+.*of=/dev/",
-        # Unix: mkfs (format)
-        r"mkfs(\.[a-z0-9]+)?\s+",
-        # Windows: format command
-        r"^format\s+[a-zA-Z]:",
-        r"\bformat\s+[a-zA-Z]:",
-        # Windows: diskpart
-        r"diskpart",
+        # dd writing to block device
+        {
+            "type": "command_args",
+            "command": "dd",
+            "args_contain": ["of=/dev/"],
+        },
+        # mkfs (any filesystem type)
+        {
+            "type": "command_only",
+            "command": "mkfs",
+        },
+        # Windows format
+        {
+            "type": "regex",
+            "pattern": r"\bformat\s+[a-zA-Z]:",
+            "why": "Need word boundary to avoid matching 'reformat' or similar",
+        },
+        # Windows diskpart
+        {
+            "type": "command_only",
+            "command": "diskpart",
+        },
     ],
     "fork_bomb": [
-        # Unix fork bomb patterns
-        r":\(\)\s*\{\s*:\s*\|\s*:\s*&\s*\}\s*;\s*:",
-        r":\(\)\{\s*:\|:&\s*\};:",
-        # While true fork patterns
-        r"while\s+(true|1|:)\s*;\s*do.*&.*done",
+        # Unix fork bomb :(){ :|:& };:
+        {
+            "type": "regex",
+            "pattern": r":\(\)\s*\{.*:\s*\|\s*:.*\}",
+            "why": "Fork bomb uses function definition syntax with special chars - "
+                   "no consistent token structure to match declaratively",
+        },
+        # Infinite spawning loop
+        {
+            "type": "regex",
+            "pattern": r"while\s+(true|1|:)\s*;\s*do.*&.*done",
+            "why": "Detects 'while true; do ... & done' where & inside loop "
+                   "causes infinite process spawning",
+        },
         # Windows batch fork bomb
-        r"%0\s*\|\s*%0",
+        {
+            "type": "regex",
+            "pattern": r"%0\s*\|\s*%0",
+            "why": "Batch self-invocation pattern - %0 is script itself, "
+                   "piping to itself creates exponential process growth",
+        },
     ],
 }
 
@@ -148,7 +194,7 @@ def check_dangerous(command: str) -> tuple[bool, str]:
     """
     for category, patterns in DANGEROUS_PATTERNS.items():
         for pattern in patterns:
-            if re.search(pattern, command, re.IGNORECASE):
+            if match_pattern(pattern, command):
                 return True, category
     return False, ""
 

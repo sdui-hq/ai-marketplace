@@ -1,6 +1,6 @@
 # command-safety/hooks/test_validate_command.py
 import pytest
-from validate_command import tokenize_command, extract_flags, match_pattern
+from validate_command import tokenize_command, extract_flags, match_pattern, check_dangerous
 
 
 class TestTokenizeCommand:
@@ -89,3 +89,63 @@ class TestMatchPattern:
         assert match_pattern(pattern, ":(){ :|:& };:") is True
         assert match_pattern(pattern, ":() { : | : & }; :") is True
         assert match_pattern(pattern, "echo hello") is False
+
+
+class TestCheckDangerous:
+    # file_destruction
+    def test_rm_rf_root(self):
+        assert check_dangerous("rm -rf /") == (True, "file_destruction")
+
+    def test_rm_rf_home(self):
+        assert check_dangerous("rm -rf ~") == (True, "file_destruction")
+
+    def test_rm_rf_star(self):
+        assert check_dangerous("rm -fr *") == (True, "file_destruction")
+
+    def test_rm_safe(self):
+        assert check_dangerous("rm -rf /tmp/test") == (False, "")
+
+    def test_del_windows(self):
+        assert check_dangerous("del /f /s /q C:\\") == (True, "file_destruction")
+
+    def test_rmdir_windows(self):
+        assert check_dangerous("rmdir /s /q C:\\Windows") == (True, "file_destruction")
+
+    def test_rd_windows(self):
+        assert check_dangerous("rd /s /q C:\\") == (True, "file_destruction")
+
+    # disk_overwrite
+    def test_dd_to_device(self):
+        assert check_dangerous("dd if=/dev/zero of=/dev/sda") == (True, "disk_overwrite")
+
+    def test_dd_to_file(self):
+        assert check_dangerous("dd if=/dev/zero of=backup.img") == (False, "")
+
+    def test_mkfs(self):
+        assert check_dangerous("mkfs.ext4 /dev/sda1") == (True, "disk_overwrite")
+
+    def test_diskpart(self):
+        assert check_dangerous("diskpart") == (True, "disk_overwrite")
+
+    def test_format_windows(self):
+        assert check_dangerous("format C:") == (True, "disk_overwrite")
+
+    # fork_bomb
+    def test_unix_fork_bomb(self):
+        assert check_dangerous(":(){ :|:& };:") == (True, "fork_bomb")
+
+    def test_while_fork(self):
+        assert check_dangerous("while true; do cat /dev/zero & done") == (True, "fork_bomb")
+
+    def test_windows_fork_bomb(self):
+        assert check_dangerous("%0|%0") == (True, "fork_bomb")
+
+    # safe commands
+    def test_safe_ls(self):
+        assert check_dangerous("ls -la") == (False, "")
+
+    def test_safe_git(self):
+        assert check_dangerous("git status") == (False, "")
+
+    def test_safe_echo(self):
+        assert check_dangerous("echo hello") == (False, "")
