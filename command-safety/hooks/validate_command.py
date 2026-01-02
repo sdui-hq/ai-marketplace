@@ -36,6 +36,49 @@ def extract_flags(tokens: list[str], prefix: str = "-") -> set[str]:
     return flags
 
 
+def match_pattern(pattern: dict, command: str) -> bool:
+    """Match a single pattern against a command."""
+    pattern_type = pattern.get("type")
+
+    if pattern_type == "command_flags_target":
+        tokens = tokenize_command(command)
+        if not tokens:
+            return False
+
+        if tokens[0] != pattern["command"]:
+            return False
+
+        prefix = pattern.get("flag_prefix", "-")
+        flags = extract_flags(tokens, prefix)
+        required = set(pattern.get("requires_flags", []))
+        if not required.issubset(flags):
+            return False
+
+        targets = pattern.get("targets")
+        if targets is not None:
+            return any(t in tokens for t in targets)
+        return True
+
+    elif pattern_type == "command_args":
+        tokens = tokenize_command(command)
+        if not tokens or tokens[0] != pattern["command"]:
+            return False
+        return all(arg in command for arg in pattern.get("args_contain", []))
+
+    elif pattern_type == "command_only":
+        tokens = tokenize_command(command)
+        if not tokens:
+            return False
+        cmd = tokens[0]
+        expected = pattern["command"]
+        return cmd == expected or cmd.startswith(expected + ".")
+
+    elif pattern_type == "regex":
+        return bool(re.search(pattern["pattern"], command, re.IGNORECASE))
+
+    return False
+
+
 # Dangerous command patterns (MVP)
 DANGEROUS_PATTERNS = {
     "file_destruction": [
