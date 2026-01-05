@@ -15,6 +15,14 @@
       "version": "0.1.0",
       "keywords": ["safety", "security", "bash", "validation"],
       "category": "security"
+    },
+    {
+      "name": "lint-runner",
+      "source": "./plugins/lint-runner",
+      "description": "Stop hook that runs linting when Claude completes tasks",
+      "version": "0.1.0",
+      "keywords": ["hooks", "quality", "automation"],
+      "category": "quality"
     }
   ]
 }
