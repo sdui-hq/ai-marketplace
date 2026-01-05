@@ -1,6 +1,6 @@
 # lint-runner
 
-Stop hook that runs linting when Claude completes, delegating fixes to a subagent.
+Stop hook that runs linting when Claude completes a task.
 
 ## What it does
 
