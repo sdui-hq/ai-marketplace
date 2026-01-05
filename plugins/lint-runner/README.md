@@ -13,7 +13,7 @@ Set the `CLAUDE_LINT_COMMAND` environment variable to your lint command:
 ```bash
 export CLAUDE_LINT_COMMAND="npm run lint"
 # or
-export CLAUDE_LINT_COMMAND="ruff check ."
+export CLAUDE_LINT_COMMAND="uv run pytest"
 ```
 
 If not set, the hook approves immediately (no-op).
