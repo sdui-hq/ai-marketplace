@@ -2,7 +2,6 @@
 
 [![Tests](https://github.com/sdui-hq/ai-marketplace/actions/workflows/test.yml/badge.svg)](https://github.com/sdui-hq/ai-marketplace/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub last commit](https://img.shields.io/github/last-commit/sdui-hq/ai-marketplace)](https://github.com/sdui-hq/ai-marketplace/commits/main)
 
 Sdui's marketplace for AI tools
 
