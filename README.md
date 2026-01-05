@@ -34,6 +34,18 @@ Read more [here](https://github.com/sdui-hq/ai-marketplace/blob/main/plugins/com
 /plugin install command-safety@ai-marketplace
 ```
 
+### lint-runner
+
+Automatically runs linting when Claude completes implementation.
+
+Read more [here](https://github.com/sdui-hq/ai-marketplace/blob/main/plugins/lint-runner/README.md).
+
+**Install:**
+
+```bash
+/plugin install lint-runner@ai-marketplace
+```
+
 ## Development
 
 ### Add a new plugin to the marketplace
