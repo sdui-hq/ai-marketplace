@@ -3,7 +3,6 @@
 
 import json
 import os
-import re
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -73,14 +72,14 @@ def approve():
     sys.exit(0)
 
 
-def block(error_count: int):
+def block():
     """Output block decision with subagent instruction."""
     log_path = get_log_path()
     response = {
         "decision": "block",
         "reason": "Lint failed",
         "systemMessage": (
-            f"Lint failed with {error_count} error(s). "
+            f"Lint failed. "
             f"Use the Task tool to spawn a subagent to read {log_path} "
             "and fix all lint errors. The subagent should fix each error "
             "and verify by running the lint command again."
@@ -88,20 +87,6 @@ def block(error_count: int):
     }
     print(json.dumps(response))
     sys.exit(0)
-
-
-def count_errors(output: str) -> int:
-    """Try to extract error count from lint output."""
-    patterns = [
-        r"(\d+)\s+error",
-        r"(\d+)\s+problem",
-        r"Found\s+(\d+)",
-    ]
-    for pattern in patterns:
-        match = re.search(pattern, output, re.IGNORECASE)
-        if match:
-            return int(match.group(1))
-    return 1  # Default to 1 if can't parse
 
 
 def main():
@@ -118,9 +103,8 @@ def main():
         clear_failure_log()
         approve()
     else:
-        error_count = count_errors(output)
         write_failure_log(lint_cmd, exit_code, output)
-        block(error_count)
+        block()
 
 
 if __name__ == "__main__":

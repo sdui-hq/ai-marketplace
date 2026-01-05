@@ -44,27 +44,6 @@ class TestGetLogPath:
             assert result.parent.exists()
 
 
-class TestCountErrors:
-    """Tests for count_errors function."""
-
-    @pytest.mark.parametrize(
-        "output,expected",
-        [
-            ("5 errors found", 5),
-            ("Found 3 errors", 3),
-            ("✖ 2 problems (2 errors, 0 warnings)", 2),
-            ("10 error", 10),
-            ("1 problem", 1),
-            ("no matching pattern", 1),  # Default
-        ],
-    )
-    def test_extracts_error_count(self, output, expected):
-        from lint_runner import count_errors
-
-        result = count_errors(output)
-        assert result == expected
-
-
 class TestRunLint:
     """Tests for run_lint function."""
 
@@ -174,12 +153,11 @@ class TestBlock:
 
         with patch.dict(os.environ, {"CLAUDE_PROJECT_DIR": str(tmp_path)}):
             with pytest.raises(SystemExit) as exc_info:
-                block(5)
+                block()
             assert exc_info.value.code == 0
             captured = capsys.readouterr()
             response = json.loads(captured.out)
             assert response["decision"] == "block"
             assert response["reason"] == "Lint failed"
-            assert "5 error(s)" in response["systemMessage"]
             assert "Task tool" in response["systemMessage"]
             assert ".claude/logs/lint.log" in response["systemMessage"]
