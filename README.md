@@ -1,5 +1,9 @@
 # Sdui AI marketplace
 
+[![Tests](https://github.com/sdui-hq/ai-marketplace/actions/workflows/test.yml/badge.svg)](https://github.com/sdui-hq/ai-marketplace/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub last commit](https://img.shields.io/github/last-commit/sdui-hq/ai-marketplace)](https://github.com/sdui-hq/ai-marketplace/commits/main)
+
 Sdui's marketplace for AI tools
 
 ## Installation
@@ -28,6 +32,18 @@ Read more [here](https://github.com/sdui-hq/ai-marketplace/blob/main/plugins/com
 
 ```bash
 /plugin install command-safety@ai-marketplace
+```
+
+### lint-runner
+
+Automatically runs linting when Claude completes implementation.
+
+Read more [here](https://github.com/sdui-hq/ai-marketplace/blob/main/plugins/lint-runner/README.md).
+
+**Install:**
+
+```bash
+/plugin install lint-runner@ai-marketplace
 ```
 
 ## Development

@@ -1,0 +1,11 @@
+{
+  "name": "lint-runner",
+  "version": "0.1.0",
+  "description": "Stop hook that runs linting when Claude completes implementation, using a subagent to fix any errors",
+  "author": {
+    "name": "sdui",
+    "url": "https://sdui.de"
+  },
+  "license": "MIT",
+  "keywords": ["lint", "linting", "hooks", "stop-hook", "quality"]
+}
