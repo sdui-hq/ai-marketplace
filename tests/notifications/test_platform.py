@@ -101,6 +101,38 @@ class TestSendNotification:
             cmd = mock_popen.call_args[0][0]
             assert cmd[0] == "powershell"
 
+    @patch("subprocess.Popen")
+    def test_macos_escapes_quotes_in_body(self, mock_popen):
+        with patch("platform_utils.detect_os", return_value="macos"):
+            send_notification("Alert", 'File "test.txt" saved', "normal")
+            cmd = mock_popen.call_args[0][0]
+            script = cmd[2]
+            assert '\\"test.txt\\"' in script
+
+    @patch("subprocess.Popen")
+    def test_macos_escapes_quotes_in_title(self, mock_popen):
+        with patch("platform_utils.detect_os", return_value="macos"):
+            send_notification('"Important" Alert', "Body text", "normal")
+            cmd = mock_popen.call_args[0][0]
+            script = cmd[2]
+            assert '\\"Important\\"' in script
+
+    @patch("subprocess.Popen")
+    def test_windows_escapes_ampersand_in_body(self, mock_popen):
+        with patch("platform_utils.detect_os", return_value="windows"):
+            send_notification("Alert", "Tom & Jerry", "normal")
+            cmd = mock_popen.call_args[0][0]
+            ps_script = cmd[2]
+            assert "&amp;" in ps_script
+
+    @patch("subprocess.Popen")
+    def test_windows_escapes_angle_brackets(self, mock_popen):
+        with patch("platform_utils.detect_os", return_value="windows"):
+            send_notification("Alert", "<script>test</script>", "normal")
+            cmd = mock_popen.call_args[0][0]
+            ps_script = cmd[2]
+            assert "&lt;script&gt;" in ps_script
+
 
 class TestPlaySound:
     @patch("os.path.exists", return_value=True)

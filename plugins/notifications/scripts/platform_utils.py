@@ -51,6 +51,24 @@ def get_sound_path(sound_type: SoundType, os_type: OSType) -> str:
     return SOUND_PATHS[os_type][sound_type]
 
 
+def escape_applescript_string(text: str) -> str:
+    """Escape special characters for AppleScript quoted strings."""
+    text = text.replace("\\", "\\\\")  # Backslashes first
+    text = text.replace('"', '\\"')     # Double quotes
+    text = text.replace("\n", "\\n")    # Newlines
+    return text
+
+
+def escape_xml_content(text: str) -> str:
+    """Escape special characters for XML content."""
+    text = text.replace("&", "&amp;")   # Ampersand first
+    text = text.replace("<", "&lt;")
+    text = text.replace(">", "&gt;")
+    text = text.replace('"', "&quot;")
+    text = text.replace("'", "&apos;")
+    return text
+
+
 def send_notification(title: str, body: str, urgency: str = "normal") -> bool:
     """Send a desktop notification. Returns True on success."""
     os_type = detect_os()
@@ -64,15 +82,19 @@ def send_notification(title: str, body: str, urgency: str = "normal") -> bool:
                 body
             ]
         elif os_type == "macos":
-            script = f'display notification "{body}" with title "{title}"'
+            escaped_title = escape_applescript_string(title)
+            escaped_body = escape_applescript_string(body)
+            script = f'display notification "{escaped_body}" with title "{escaped_title}"'
             cmd = ["osascript", "-e", script]
         else:  # windows
+            escaped_title = escape_xml_content(title)
+            escaped_body = escape_xml_content(body)
             script = f'''
             [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
             $template = [Windows.UI.Notifications.ToastTemplateType]::ToastText02
             $xml = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent($template)
-            $xml.GetElementsByTagName("text")[0].AppendChild($xml.CreateTextNode("{title}")) | Out-Null
-            $xml.GetElementsByTagName("text")[1].AppendChild($xml.CreateTextNode("{body}")) | Out-Null
+            $xml.GetElementsByTagName("text")[0].AppendChild($xml.CreateTextNode("{escaped_title}")) | Out-Null
+            $xml.GetElementsByTagName("text")[1].AppendChild($xml.CreateTextNode("{escaped_body}")) | Out-Null
             $toast = [Windows.UI.Notifications.ToastNotification]::new($xml)
             [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("Claude Code").Show($toast)
             '''
