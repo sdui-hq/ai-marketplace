@@ -5,7 +5,7 @@ Automated PR code review with GitHub CLI integration for Claude Code.
 ## Features
 
 - **Full context analysis**: Checks out PR branch locally for complete code understanding
-- **Git hygiene validation**: Branch naming and conventional commit message checks
+- **Git hygiene validation**: Branch naming and commit message checks
 - **Deep code review**: Type safety, security vulnerabilities, performance, test coverage
 - **Structured output**: Consistent review format with severity ratings
 - **Direct GitHub posting**: Review posted as PR comment automatically
@@ -31,41 +31,12 @@ Example:
 1. Fetches PR details from GitHub
 2. Checks out the PR branch locally
 3. Validates branch naming conventions
-4. Validates commit messages (Conventional Commits)
+4. Validates commit messages 
 5. Analyzes all changed files
 6. Performs deep code review
 7. Posts structured review as GitHub comment
+8. Returns a verdict: Approve / Approve with suggestions / Request changes
 
-## Review Output Structure
-
-```markdown
-## Code Review: [PR Title]
-
-### Overview
-Brief summary of changes
-
-### Git Hygiene
-- Branch name validation
-- Commit message validation
-
-### Positives
-Good practices observed
-
-### Issues Found
-Numbered issues with severity, code snippets, and fixes
-
-### Suggestions
-Optional improvements
-
-### Security
-Security checklist
-
-### Test Coverage
-Assessment of tests
-
-### Verdict
-Approve / Approve with suggestions / Request changes
-```
 
 ## Conventions Enforced
 
