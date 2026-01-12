@@ -1,11 +1,10 @@
-import pytest
 from unittest.mock import patch, MagicMock
 import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../plugins/notifications/scripts'))
 
-from platform_utils import detect_os, get_sound_path, send_notification, play_sound
+from platform_utils import detect_os, get_sound_path, send_notification, play_sound  # noqa: E402
 
 
 class TestDetectOS:

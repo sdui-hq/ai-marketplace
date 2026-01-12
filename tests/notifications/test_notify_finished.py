@@ -1,13 +1,12 @@
-import pytest
 import json
 import sys
 import os
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from io import StringIO
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../plugins/notifications/scripts'))
 
-from notify_finished import format_duration, format_cost, build_notification_body, main
+from notify_finished import format_duration, format_cost, build_notification_body, main  # noqa: E402
 
 
 class TestFormatDuration:
