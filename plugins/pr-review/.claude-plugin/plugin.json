@@ -1,0 +1,11 @@
+{
+  "name": "pr-review",
+  "version": "0.1.0",
+  "description": "Automated PR code review with GitHub CLI integration",
+  "author": {
+    "name": "sdui",
+    "url": "https://sdui.de"
+  },
+  "license": "MIT",
+  "keywords": ["github", "pull-request", "code-review", "automation"]
+}

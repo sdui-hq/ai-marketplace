@@ -21,28 +21,15 @@ claude plugin marketplace add sdui/ai-marketplace
 
 ## Available Plugins
 
-### command-safety
+| Plugin | Description | Type | Install |
+|--------|-------------|------|---------|
+| [command-safety](./plugins/command-safety) | Blocks dangerous bash commands before execution | Hook | `command-safety@ai-marketplace` |
+| [lint-runner](./plugins/lint-runner) | Runs linting when Claude completes tasks | Hook | `lint-runner@ai-marketplace` |
+| [pr-review](./plugins/pr-review) | Automated PR code reviews with GitHub CLI | Command | `pr-review@ai-marketplace` |
 
-Pre-execution validator that blocks dangerous bash commands before they run.
-
-Read more [here](https://github.com/sdui-hq/ai-marketplace/blob/main/plugins/command-safety/README.md).
-
-**Install:**
-
+Install any plugin:
 ```bash
-/plugin install command-safety@ai-marketplace
-```
-
-### lint-runner
-
-Automatically runs linting when Claude completes implementation.
-
-Read more [here](https://github.com/sdui-hq/ai-marketplace/blob/main/plugins/lint-runner/README.md).
-
-**Install:**
-
-```bash
-/plugin install lint-runner@ai-marketplace
+/plugin install <plugin>@ai-marketplace
 ```
 
 ## Development

@@ -23,6 +23,14 @@
       "version": "0.1.0",
       "keywords": ["hooks", "quality", "automation"],
       "category": "quality"
+    },
+    {
+      "name": "pr-review",
+      "source": "./plugins/pr-review",
+      "description": "Automated PR code review with GitHub CLI integration",
+      "version": "0.1.0",
+      "keywords": ["github", "pull-request", "code-review", "automation"],
+      "category": "workflow"
     }
   ]
 }
