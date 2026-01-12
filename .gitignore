@@ -2,6 +2,7 @@
 .claude/settings.local.json
 .claude/logs/
 .claude/*.local.md
+TODO.md
 
 # Python
 *.pyc
