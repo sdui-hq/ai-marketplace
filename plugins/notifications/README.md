@@ -15,7 +15,7 @@ This plugin sends desktop notifications:
 - `paplay` (PulseAudio) or `aplay` (ALSA) for sounds
 
 **macOS:**
-- No additional requirements (uses built-in tools)
+- `terminal-notifier` (required): `brew install terminal-notifier`
 
 **Windows:**
 - PowerShell 5.0+ (included in Windows 10+)
