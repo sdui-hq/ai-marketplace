@@ -18,3 +18,8 @@ A Claude Code plugin marketplace containing all the plugins we use at Sdui. Uses
 ## Testing
 
 Tests live in `tests/` with `conftest.py` auto-discovering plugin paths. Plugin code is tested with pytest.
+
+## Hooks
+
+Refer to the documentation for more information when implementing hooks.
+Documentation: https://code.claude.com/docs/en/hooks 
