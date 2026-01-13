@@ -8,7 +8,7 @@ import json
 import sys
 from typing import Optional
 
-from platform_utils import send_notification, play_sound
+from platform_utils import send_notification, play_sound, detect_os
 
 URGENCY_MAP = {
     "permission_prompt": "critical",
@@ -56,7 +56,8 @@ def main() -> int:
     urgency = get_notification_urgency(notification_type)
 
     send_notification(title, message, urgency)
-    play_sound("attention")
+    if detect_os() == "linux":
+        play_sound("attention")
     return 0
 
 

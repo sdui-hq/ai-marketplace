@@ -8,7 +8,7 @@ import json
 import sys
 from typing import Optional
 
-from platform_utils import send_notification, play_sound
+from platform_utils import send_notification, play_sound, detect_os
 
 NOTIFICATION_TITLE = "Claude Code - Finished"
 
@@ -23,13 +23,6 @@ def format_duration(ms: int) -> str:
     minutes = int(seconds // 60)
     secs = int(seconds % 60)
     return f"{minutes}m {secs}s"
-
-
-def format_cost(cost_usd: float) -> str:
-    """Format cost in USD."""
-    if cost_usd < 0.01:
-        return f"${cost_usd:.4f}"
-    return f"${cost_usd:.2f}"
 
 
 def read_stdin() -> Optional[dict]:
@@ -62,19 +55,6 @@ def build_notification_body(data: dict) -> str:
     if duration_ms:
         parts.append(f"Duration: {format_duration(duration_ms)}")
 
-    num_turns = stop_data.get("num_turns")
-    if num_turns:
-        parts.append(f"Turns: {num_turns}")
-
-    cost = stop_data.get("total_cost_usd")
-    if cost and cost > 0:
-        parts.append(f"Cost: {format_cost(cost)}")
-
-    input_tokens = stop_data.get("total_input_tokens", 0)
-    output_tokens = stop_data.get("total_output_tokens", 0)
-    if input_tokens or output_tokens:
-        parts.append(f"Tokens: {input_tokens:,} in / {output_tokens:,} out")
-
     return "\n".join(parts)
 
 
@@ -83,7 +63,8 @@ def main() -> int:
     data = read_stdin() or {}
     body = build_notification_body(data)
     send_notification(NOTIFICATION_TITLE, body)
-    play_sound("complete")
+    if detect_os() == "linux":
+        play_sound("complete")
     return 0
 
 

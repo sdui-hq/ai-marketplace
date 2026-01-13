@@ -33,9 +33,10 @@ class TestGetNotificationUrgency:
 
 
 class TestMain:
+    @patch("notify_action_required.detect_os", return_value="linux")
     @patch("notify_action_required.play_sound")
     @patch("notify_action_required.send_notification")
-    def test_main_with_permission_prompt(self, mock_notify, mock_sound):
+    def test_main_with_permission_prompt_on_linux(self, mock_notify, mock_sound, mock_detect_os):
         data = {"notification_type": "permission_prompt", "message": "Allow file write?"}
         with patch("sys.stdin", StringIO(json.dumps(data))):
             result = main()
@@ -47,11 +48,35 @@ class TestMain:
         )
         mock_sound.assert_called_once_with("attention")
 
+    @patch("notify_action_required.detect_os", return_value="linux")
     @patch("notify_action_required.play_sound")
     @patch("notify_action_required.send_notification")
-    def test_main_with_empty_stdin(self, mock_notify, mock_sound):
+    def test_main_with_empty_stdin_on_linux(self, mock_notify, mock_sound, mock_detect_os):
         with patch("sys.stdin", StringIO("")):
             result = main()
         assert result == 0
         mock_notify.assert_called_once()
         assert "Action Required" in mock_notify.call_args[0][0]
+        mock_sound.assert_called_once_with("attention")
+
+    @patch("notify_action_required.detect_os", return_value="macos")
+    @patch("notify_action_required.play_sound")
+    @patch("notify_action_required.send_notification")
+    def test_main_on_macos_no_sound(self, mock_notify, mock_sound, mock_detect_os):
+        data = {"notification_type": "permission_prompt", "message": "Allow file write?"}
+        with patch("sys.stdin", StringIO(json.dumps(data))):
+            result = main()
+        assert result == 0
+        mock_notify.assert_called_once()
+        mock_sound.assert_not_called()
+
+    @patch("notify_action_required.detect_os", return_value="windows")
+    @patch("notify_action_required.play_sound")
+    @patch("notify_action_required.send_notification")
+    def test_main_on_windows_no_sound(self, mock_notify, mock_sound, mock_detect_os):
+        data = {"notification_type": "idle_prompt", "message": "Waiting for input"}
+        with patch("sys.stdin", StringIO(json.dumps(data))):
+            result = main()
+        assert result == 0
+        mock_notify.assert_called_once()
+        mock_sound.assert_not_called()
