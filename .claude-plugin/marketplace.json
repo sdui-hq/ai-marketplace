@@ -31,6 +31,14 @@
       "version": "0.1.0",
       "keywords": ["github", "pull-request", "code-review", "automation"],
       "category": "workflow"
+    },
+    {
+      "name": "notifications",
+      "source": "./plugins/notifications",
+      "description": "Cross-platform desktop notifications for Claude Code events",
+      "version": "0.2.0",
+      "keywords": ["notifications", "desktop", "alerts", "cross-platform"],
+      "category": "productivity"
     }
   ]
 }
