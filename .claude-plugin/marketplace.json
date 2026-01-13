@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "sdui-marketplace",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Sdui's marketplace for AI tools",
 
   "owner": {
@@ -36,7 +36,7 @@
       "name": "notifications",
       "source": "./plugins/notifications",
       "description": "Cross-platform desktop notifications for Claude Code events",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "keywords": ["notifications", "desktop", "alerts", "cross-platform"],
       "category": "productivity"
     }
