@@ -36,14 +36,6 @@ def get_sound_path(sound_type: SoundType) -> str:
     return LINUX_SOUND_PATHS[sound_type]
 
 
-def escape_applescript_string(text: str) -> str:
-    """Escape special characters for AppleScript quoted strings."""
-    text = text.replace("\\", "\\\\")  # Backslashes first
-    text = text.replace('"', '\\"')     # Double quotes
-    text = text.replace("\n", "\\n")    # Newlines
-    return text
-
-
 def escape_xml_content(text: str) -> str:
     """Escape special characters for XML content."""
     text = text.replace("&", "&amp;")   # Ampersand first
@@ -75,10 +67,7 @@ def send_notification(title: str, body: str, urgency: str = "normal") -> bool:
                 body
             ]
         elif os_type == "macos":
-            escaped_title = escape_applescript_string(title)
-            escaped_body = escape_applescript_string(body)
-            script = f'display notification "{escaped_body}" with title "{escaped_title}" sound name "default"'
-            cmd = ["osascript", "-e", script]
+            cmd = ["terminal-notifier", "-title", title, "-message", body, "-sound", "default"]
         else:  # windows
             escaped_title = escape_powershell_string(escape_xml_content(title))
             escaped_body = escape_powershell_string(escape_xml_content(body))

@@ -68,8 +68,12 @@ class TestSendNotification:
             send_notification("Test Title", "Test Body", "normal")
             mock_popen.assert_called_once()
             cmd = mock_popen.call_args[0][0]
-            assert cmd[0] == "osascript"
-            assert "-e" in cmd
+            assert cmd[0] == "terminal-notifier"
+            assert "-title" in cmd
+            assert "Test Title" in cmd
+            assert "-message" in cmd
+            assert "Test Body" in cmd
+            assert "-sound" in cmd
 
     @patch("subprocess.Popen")
     def test_windows_notification(self, mock_popen):
@@ -78,22 +82,6 @@ class TestSendNotification:
             mock_popen.assert_called_once()
             cmd = mock_popen.call_args[0][0]
             assert cmd[0] == "powershell"
-
-    @patch("subprocess.Popen")
-    def test_macos_escapes_quotes_in_body(self, mock_popen):
-        with patch("platform_utils.detect_os", return_value="macos"):
-            send_notification("Alert", 'File "test.txt" saved', "normal")
-            cmd = mock_popen.call_args[0][0]
-            script = cmd[2]
-            assert '\\"test.txt\\"' in script
-
-    @patch("subprocess.Popen")
-    def test_macos_escapes_quotes_in_title(self, mock_popen):
-        with patch("platform_utils.detect_os", return_value="macos"):
-            send_notification('"Important" Alert', "Body text", "normal")
-            cmd = mock_popen.call_args[0][0]
-            script = cmd[2]
-            assert '\\"Important\\"' in script
 
     @patch("subprocess.Popen")
     def test_windows_escapes_ampersand_in_body(self, mock_popen):
@@ -194,55 +182,6 @@ class TestSendNotification:
             assert "`$env:USER" in ps_script
             assert "``n" in ps_script
 
-    @patch("subprocess.Popen")
-    def test_macos_escapes_backslashes(self, mock_popen):
-        """Test that backslashes in notification content are properly escaped."""
-        with patch("platform_utils.detect_os", return_value="macos"):
-            send_notification("Path Alert", "C:\\Users\\name", "normal")
-            cmd = mock_popen.call_args[0][0]
-            script = cmd[2]
-            # Backslashes should be escaped
-            assert "C:\\\\Users\\\\name" in script
-
-    @patch("subprocess.Popen")
-    def test_macos_injection_attempt_neutralized(self, mock_popen):
-        """Test that command injection attempts are properly neutralized."""
-        with patch("platform_utils.detect_os", return_value="macos"):
-            # Attempt to inject AppleScript via the body
-            malicious_body = 'test" & do shell script "echo pwned" & "'
-            send_notification("Alert", malicious_body, "normal")
-            cmd = mock_popen.call_args[0][0]
-            script = cmd[2]
-            # The quotes should be escaped, not allowing command injection
-            assert '\\"' in script
-            # The script should contain escaped quotes, not raw ones that would break out
-            assert 'display notification "test\\"' in script
-
-    @patch("subprocess.Popen")
-    def test_macos_escapes_newlines(self, mock_popen):
-        """Test that newlines in notification content are properly escaped."""
-        with patch("platform_utils.detect_os", return_value="macos"):
-            send_notification("Alert", "Line 1\nLine 2", "normal")
-            cmd = mock_popen.call_args[0][0]
-            script = cmd[2]
-            # Newlines should be escaped
-            assert "Line 1\\nLine 2" in script
-
-    @patch("subprocess.Popen")
-    def test_macos_combined_special_chars_in_title_and_body(self, mock_popen):
-        """Test that all special characters are properly escaped in both title and body."""
-        with patch("platform_utils.detect_os", return_value="macos"):
-            send_notification(
-                'Title with "quotes" and \\backslash',
-                'Body with "quotes"\nand newline',
-                "normal"
-            )
-            cmd = mock_popen.call_args[0][0]
-            script = cmd[2]
-            # Title should have escaped quotes and backslash
-            assert 'Title with \\"quotes\\" and \\\\backslash' in script
-            # Body should have escaped quotes and newline
-            assert 'Body with \\"quotes\\"\\nand newline' in script
 
 
 class TestPlaySound:
