@@ -4,7 +4,7 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../plugins/notifications/scripts'))
 
-from platform_utils import escape_applescript_string, escape_xml_content
+from platform_utils import escape_applescript_string, escape_xml_content, escape_powershell_string
 
 
 class TestEscapeApplescriptString:
@@ -27,6 +27,28 @@ class TestEscapeApplescriptString:
 
     def test_unicode_preserved(self):
         assert escape_applescript_string("Hello 🎉 World") == "Hello 🎉 World"
+
+    def test_malicious_injection_attempt(self):
+        """Test that injection attempts are properly neutralized."""
+        malicious = 'test" & do shell script "rm -rf /" & "'
+        escaped = escape_applescript_string(malicious)
+        assert escaped == 'test\\" & do shell script \\"rm -rf /\\" & \\"'
+
+    def test_nested_escapes(self):
+        """Test strings with already-escaped content."""
+        input_text = 'File path: C:\\Users"name"'
+        expected = 'File path: C:\\\\Users\\"name\\"'
+        assert escape_applescript_string(input_text) == expected
+
+    def test_empty_string(self):
+        """Test that empty strings are handled correctly."""
+        assert escape_applescript_string("") == ""
+
+    def test_only_special_chars(self):
+        """Test strings containing only special characters."""
+        input_text = '""' + '\n'
+        expected = '\\"\\"\\n'
+        assert escape_applescript_string(input_text) == expected
 
 
 class TestEscapeXmlContent:
@@ -59,3 +81,78 @@ class TestEscapeXmlContent:
     def test_already_escaped_gets_double_escaped(self):
         # If someone passes "&amp;" it should become "&amp;amp;"
         assert escape_xml_content("&amp;") == "&amp;amp;"
+
+
+class TestEscapePowershellString:
+    """Tests for PowerShell string escaping to prevent command injection."""
+
+    def test_plain_text_unchanged(self):
+        """Plain text without special characters should remain unchanged."""
+        assert escape_powershell_string("Hello World") == "Hello World"
+
+    def test_double_quotes_escaped(self):
+        """Double quotes must be escaped with backtick to prevent string termination."""
+        assert escape_powershell_string('Say "Hello"') == 'Say `"Hello`"'
+
+    def test_backticks_escaped(self):
+        """Backticks must be escaped since they are PowerShell's escape character."""
+        assert escape_powershell_string("Hello `World") == "Hello ``World"
+
+    def test_dollar_signs_escaped(self):
+        """Dollar signs must be escaped to prevent variable expansion."""
+        assert escape_powershell_string("$env:USERNAME") == "`$env:USERNAME"
+
+    def test_subexpression_escaped(self):
+        """$() subexpressions must be escaped to prevent command execution."""
+        assert escape_powershell_string("$(Get-Process)") == "`$(Get-Process)"
+
+    def test_combined_special_chars(self):
+        """Test a string with multiple special characters."""
+        input_text = 'User "$env:USER" ran `command` with $(calc.exe)'
+        # Quotes get escaped too: " -> `"
+        expected = 'User `"`$env:USER`" ran ``command`` with `$(calc.exe)'
+        assert escape_powershell_string(input_text) == expected
+
+    def test_unicode_preserved(self):
+        """Unicode characters should be preserved unchanged."""
+        assert escape_powershell_string("Hello 🎉 World") == "Hello 🎉 World"
+
+    def test_empty_string(self):
+        """Empty strings should be handled correctly."""
+        assert escape_powershell_string("") == ""
+
+    def test_only_special_chars(self):
+        """Test strings containing only special characters."""
+        assert escape_powershell_string('`$"') == '```$`"'
+
+    def test_malicious_variable_injection(self):
+        """Test that variable injection attempts are neutralized."""
+        malicious = "Hello $env:COMPUTERNAME"
+        escaped = escape_powershell_string(malicious)
+        assert escaped == "Hello `$env:COMPUTERNAME"
+
+    def test_malicious_command_injection(self):
+        """Test that command injection via $() is neutralized."""
+        malicious = 'test$(Remove-Item -Recurse C:\\)end'
+        escaped = escape_powershell_string(malicious)
+        assert escaped == 'test`$(Remove-Item -Recurse C:\\)end'
+
+    def test_malicious_string_breakout(self):
+        """Test that attempts to break out of the string are neutralized."""
+        malicious = 'test"; Remove-Item -Recurse C:\\; "'
+        escaped = escape_powershell_string(malicious)
+        assert escaped == 'test`"; Remove-Item -Recurse C:\\; `"'
+
+    def test_multiple_dollar_signs(self):
+        """Test multiple consecutive dollar signs."""
+        assert escape_powershell_string("$$$$") == "`$`$`$`$"
+
+    def test_backtick_followed_by_dollar(self):
+        """Test backtick followed by dollar sign - both must be escaped."""
+        assert escape_powershell_string("`$") == "```$"
+
+    def test_real_world_notification_text(self):
+        """Test realistic notification text that might contain special chars."""
+        text = 'Build complete! Cost: $1.50 for "my-project"'
+        expected = 'Build complete! Cost: `$1.50 for `"my-project`"'
+        assert escape_powershell_string(text) == expected

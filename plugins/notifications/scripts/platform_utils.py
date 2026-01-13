@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Cross-platform utilities for notifications."""
 
+import json
 import os
 import platform as _platform
 import subprocess
-from typing import Literal
+import sys
+from typing import Literal, Optional
 
 OSType = Literal["linux", "macos", "windows"]
 SoundType = Literal["complete", "attention"]
@@ -52,6 +54,14 @@ def escape_xml_content(text: str) -> str:
     return text
 
 
+def escape_powershell_string(text: str) -> str:
+    """Escape special characters for PowerShell double-quoted strings."""
+    text = text.replace("`", "``")
+    text = text.replace("$", "`$")
+    text = text.replace('"', '`"')
+    return text
+
+
 def send_notification(title: str, body: str, urgency: str = "normal") -> bool:
     """Send a desktop notification. Returns True on success."""
     os_type = detect_os()
@@ -70,8 +80,8 @@ def send_notification(title: str, body: str, urgency: str = "normal") -> bool:
             script = f'display notification "{escaped_body}" with title "{escaped_title}" sound name "default"'
             cmd = ["osascript", "-e", script]
         else:  # windows
-            escaped_title = escape_xml_content(title)
-            escaped_body = escape_xml_content(body)
+            escaped_title = escape_powershell_string(escape_xml_content(title))
+            escaped_body = escape_powershell_string(escape_xml_content(body))
             script = f'''
             [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
             $template = [Windows.UI.Notifications.ToastTemplateType]::ToastText02
@@ -107,3 +117,14 @@ def play_sound(sound_type: SoundType) -> bool:
         return True
     except Exception:
         return False
+
+
+def read_stdin() -> Optional[dict]:
+    """Read and parse JSON from stdin."""
+    try:
+        data = sys.stdin.read()
+        if not data.strip():
+            return None
+        return json.loads(data)
+    except json.JSONDecodeError:
+        return None

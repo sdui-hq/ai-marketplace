@@ -4,11 +4,9 @@ Claude Code Notification Hook - User Action Required
 Sends desktop notification when Claude needs user input.
 """
 
-import json
 import sys
-from typing import Optional
 
-from platform_utils import send_notification, play_sound, detect_os
+from platform_utils import send_notification, play_sound, detect_os, read_stdin
 
 URGENCY_MAP = {
     "permission_prompt": "normal",
@@ -32,17 +30,6 @@ def get_notification_title(notification_type: str) -> str:
 def get_notification_urgency(notification_type: str) -> str:
     """Map notification type to urgency level."""
     return URGENCY_MAP.get(notification_type, "normal")
-
-
-def read_stdin() -> Optional[dict]:
-    """Read and parse JSON from stdin."""
-    try:
-        data = sys.stdin.read()
-        if not data.strip():
-            return None
-        return json.loads(data)
-    except json.JSONDecodeError:
-        return None
 
 
 def main() -> int:
