@@ -11,7 +11,7 @@ from typing import Optional
 from platform_utils import send_notification, play_sound, detect_os
 
 URGENCY_MAP = {
-    "permission_prompt": "critical",
+    "permission_prompt": "normal",
     "idle_prompt": "normal",
 }
 

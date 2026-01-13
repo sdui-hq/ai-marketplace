@@ -22,8 +22,8 @@ class TestGetNotificationTitle:
 
 
 class TestGetNotificationUrgency:
-    def test_permission_prompt_is_critical(self):
-        assert get_notification_urgency("permission_prompt") == "critical"
+    def test_permission_prompt_is_normal(self):
+        assert get_notification_urgency("permission_prompt") == "normal"
 
     def test_idle_prompt_is_normal(self):
         assert get_notification_urgency("idle_prompt") == "normal"
@@ -44,7 +44,7 @@ class TestMain:
         mock_notify.assert_called_once_with(
             "Claude Code - Permission Required",
             "Allow file write?",
-            "critical"
+            "normal"
         )
         mock_sound.assert_called_once_with("attention")
 
