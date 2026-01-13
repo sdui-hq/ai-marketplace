@@ -1,0 +1,8 @@
+{
+  "name": "notifications",
+  "version": "0.2.0",
+  "description": "Cross-platform desktop notifications for Claude Code",
+  "author": {
+    "name": "danielr"
+  }
+}

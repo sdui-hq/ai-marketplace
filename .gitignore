@@ -13,3 +13,9 @@ __pycache__/
 .python-version
 docs/plans/
 uv.lock
+
+# Local
+.env
+
+# Git worktrees
+.worktrees/
