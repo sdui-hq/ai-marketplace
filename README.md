@@ -7,24 +7,25 @@ Sdui's marketplace for AI tools
 
 ## Shared Configurations
 
-This repository provides shared configurations for Claude Code environments.
+This repository provides shared configurations for Claude Code.
 
 | Configuration | Description | Location |
 |--------------|-------------|----------|
-| [DevContainer](./.devcontainer) | Sandboxed Claude Code environment with network isolation | `.devcontainer/` |
-| [settings.json](./.claude/settings.json) | Shared Claude Code settings | `.claude/settings.json` |
+| [settings.json](./.claude/settings.json) | Shared Claude Code settings (plugins, sandbox, env vars, etc) | `.claude/settings.json` |
+| [DevContainer](./.devcontainer) | Containerised environment with network isolation | `.devcontainer/` |
 
-### Claude Code Settings
+### Settings
 
-Shared Claude Code CLI configuration `.claude/settings.json` can be found in the [.claude](./.claude) directory.
+Shared CLI configuration `.claude/settings.json` can be found in the [.claude](./.claude) directory.
 
 ### DevContainer
 
-A pre-configured development container with filesystem + network isolation. See [.devcontainer/README.md](./.devcontainer/README.md) for details.
+A pre-configured development container with filesystem + network isolation. See [README.md](./.devcontainer/README.md) for details.
 
 > [!NOTE]
-> **Recommended for:** Autonomous Claude sessions that require additional security layers.
-> **Not for:** Quick tasks (use [Sandboxing](./.claude/settings.json)), environments without Docker.
+> DevContainers are recommended for autonomous Claude sessions that require additional security layers.
+> 
+> for quick tasks with fewer permission prompts, use [Sandboxing](./.claude/settings.json)
 
 ## Plugins
 
@@ -60,7 +61,3 @@ How to create a new plugin: [Claude Code Plugins](https://code.claude.com/docs/e
 ```bash
 claude --plugin-dir /path/to/ai-marketplace/plugins/command-safety
 ```
-
-## License
-
-MIT
