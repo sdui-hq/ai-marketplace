@@ -12,8 +12,7 @@ This repository provides shared configurations for Claude Code environments.
 | Configuration | Description | Location |
 |--------------|-------------|----------|
 | [DevContainer](./.devcontainer) | Sandboxed Claude Code environment with network isolation | `.devcontainer/` |
-| [.claude/settings.json](./.claude/settings.json) | Shared Claude Code settings | `.claude/settings.json` |
-
+| [settings.json](./.claude/settings.json) | Shared Claude Code settings | `.claude/settings.json` |
 
 ### Claude Code Settings
 
@@ -21,8 +20,11 @@ Shared Claude Code CLI configuration `.claude/settings.json` can be found in the
 
 ### DevContainer
 
-A pre-configured development container for running Claude Code safely with `--dangerously-skip-permissions`. See [.devcontainer/README.md](./.devcontainer/README.md) for details.
+A pre-configured development container with filesystem + network isolation. See [.devcontainer/README.md](./.devcontainer/README.md) for details.
 
+[!NOTE]
+> **Recommended for:** Autonomous Claude sessions that require additional security layers.
+> **Not for:** Quick tasks (use [Sandboxing](./.claude/settings.json)), environments without Docker.
 
 ## Plugins
 
