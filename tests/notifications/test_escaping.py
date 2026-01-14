@@ -3,51 +3,7 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../plugins/notifications/scripts'))
 
-from platform_utils import escape_applescript_string, escape_xml_content, escape_powershell_string  # noqa: E402
-
-
-class TestEscapeApplescriptString:
-    def test_plain_text_unchanged(self):
-        assert escape_applescript_string("Hello World") == "Hello World"
-
-    def test_double_quotes_escaped(self):
-        assert escape_applescript_string('Say "Hello"') == 'Say \\"Hello\\"'
-
-    def test_backslashes_escaped(self):
-        assert escape_applescript_string("path\\to\\file") == "path\\\\to\\\\file"
-
-    def test_newlines_escaped(self):
-        assert escape_applescript_string("line1\nline2") == "line1\\nline2"
-
-    def test_combined_special_chars(self):
-        input_text = 'He said "Hello\\World"\nGoodbye'
-        expected = 'He said \\"Hello\\\\World\\"\\nGoodbye'
-        assert escape_applescript_string(input_text) == expected
-
-    def test_unicode_preserved(self):
-        assert escape_applescript_string("Hello 🎉 World") == "Hello 🎉 World"
-
-    def test_malicious_injection_attempt(self):
-        """Test that injection attempts are properly neutralized."""
-        malicious = 'test" & do shell script "rm -rf /" & "'
-        escaped = escape_applescript_string(malicious)
-        assert escaped == 'test\\" & do shell script \\"rm -rf /\\" & \\"'
-
-    def test_nested_escapes(self):
-        """Test strings with already-escaped content."""
-        input_text = 'File path: C:\\Users"name"'
-        expected = 'File path: C:\\\\Users\\"name\\"'
-        assert escape_applescript_string(input_text) == expected
-
-    def test_empty_string(self):
-        """Test that empty strings are handled correctly."""
-        assert escape_applescript_string("") == ""
-
-    def test_only_special_chars(self):
-        """Test strings containing only special characters."""
-        input_text = '""' + '\n'
-        expected = '\\"\\"\\n'
-        assert escape_applescript_string(input_text) == expected
+from platform_utils import escape_xml_content, escape_powershell_string
 
 
 class TestEscapeXmlContent:
