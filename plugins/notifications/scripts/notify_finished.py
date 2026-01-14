@@ -13,7 +13,7 @@ NOTIFICATION_TITLE = "Claude Code - Finished"
 
 def main() -> int:
     """Main entry point for the stop hook."""
-    read_stdin()  
+    read_stdin()
 
     send_notification(NOTIFICATION_TITLE, "Task completed")
     if detect_os() == "linux":

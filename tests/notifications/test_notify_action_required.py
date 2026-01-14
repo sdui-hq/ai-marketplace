@@ -1,4 +1,3 @@
-import pytest
 import json
 import sys
 import os
@@ -7,7 +6,7 @@ from io import StringIO
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../plugins/notifications/scripts'))
 
-from notify_action_required import get_notification_title, get_notification_urgency, main
+from notify_action_required import get_notification_title, get_notification_urgency, main  # noqa: E402
 
 
 class TestGetNotificationTitle:

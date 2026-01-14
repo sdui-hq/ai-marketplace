@@ -1,4 +1,3 @@
-import pytest
 import json
 from unittest.mock import patch, MagicMock
 import sys
@@ -7,7 +6,7 @@ from io import StringIO
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../plugins/notifications/scripts'))
 
-from platform_utils import detect_os, get_sound_path, send_notification, play_sound, read_stdin
+from platform_utils import detect_os, get_sound_path, send_notification, play_sound, read_stdin  # noqa: E402
 
 
 class TestDetectOS:
