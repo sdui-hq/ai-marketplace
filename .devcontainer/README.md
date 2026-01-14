@@ -11,8 +11,9 @@ DevContainers provide **dual isolation** (filesystem + network) that enables aut
 - DevContainer provides filesystem + network isolation, enabling fully autonomous operations. 
 - Sandboxing provides OS-level filesystem isolation with pre-approved commands—no Docker required. 
 
-[!NOTE]
-> Use DevContainer for unattended/autonomous sessions that require network isolation and additional security layers.
+> [!NOTE]
+> Use DevContainer for autonomous sessions that require network isolation and additional security layers.
+>
 > Use Sandboxing for everyday interactive work that requires fewer permission prompts.
 
 ## Usage
