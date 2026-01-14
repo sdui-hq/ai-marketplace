@@ -18,8 +18,8 @@ Starting point for shared Claude Code configuration. Teams can extend this confi
 
 #### How Sandboxing compares to DevContainers
 
-- **Sandboxing** provides OS-level filesystem isolation with pre-approved commands—no Docker required. (Recommended for everyday interactive work with fewer permission prompts.)
-- **DevContainer** adds network isolation on top, enabling fully autonomous operations. (Recommended for autonomous sessions that require additional security layers.)
+- **Sandboxing** provides OS-level filesystem isolation with pre-approved commands—no Docker required. _(Recommended for interactive work with fewer permission prompts.)_
+- **DevContainer** adds network isolation on top, enabling fully autonomous operations. _(Recommended for autonomous sessions that require additional security layers.)_
 
 ## Personal Overrides
 
