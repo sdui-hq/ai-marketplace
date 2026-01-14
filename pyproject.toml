@@ -8,6 +8,7 @@ dependencies = []
 [dependency-groups]
 dev = [
     "pytest>=9.0.2",
+    "flake8>=7.0.0",
 ]
 
 [tool.pytest.ini_options]

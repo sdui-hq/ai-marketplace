@@ -4,7 +4,7 @@ import json
 import os
 import pytest
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 
 class TestGetProjectDir:
@@ -70,7 +70,7 @@ class TestRunLint:
             assert exit_code == 1
 
     def test_handles_timeout(self, tmp_path):
-        from lint_runner import run_lint, TIMEOUT_SECONDS
+        from lint_runner import run_lint
 
         with patch.dict(os.environ, {"CLAUDE_PROJECT_DIR": str(tmp_path)}):
             # Use a command that would take longer than timeout

@@ -5,7 +5,26 @@
 
 Sdui's marketplace for AI tools
 
-## Installation
+## Shared Configurations
+
+This repository provides shared configurations for Claude Code environments.
+
+| Configuration | Description | Location |
+|--------------|-------------|----------|
+| [DevContainer](./.devcontainer) | Sandboxed Claude Code environment with network isolation | `.devcontainer/` |
+| [.claude/settings.json](./.claude/settings.json) | Shared Claude Code settings | `.claude/settings.json` |
+
+
+### Claude Code Settings
+
+Shared Claude Code CLI configuration `.claude/settings.json` can be found in the [.claude](./.claude) directory.
+
+### DevContainer
+
+A pre-configured development container for running Claude Code safely with `--dangerously-skip-permissions`. See [.devcontainer/README.md](./.devcontainer/README.md) for details.
+
+
+## Plugins
 
 Add this marketplace to Claude Code:
 
@@ -19,7 +38,7 @@ Or via CLI:
 claude plugin marketplace add sdui/ai-marketplace
 ```
 
-## Available Plugins
+### Available Plugins
 
 | Plugin | Description | Type | Install |
 |--------|-------------|------|---------|
@@ -32,24 +51,6 @@ Install any plugin:
 ```bash
 /plugin install <plugin>@ai-marketplace
 ```
-
-## Shared Configurations
-
-Beyond plugins, this repository provides shared configurations for Claude Code environments.
-
-| Configuration | Description | Location |
-|--------------|-------------|----------|
-| [DevContainer](./.devcontainer) | Sandboxed Claude Code environment with network isolation | `.devcontainer/` |
-| settings.json | Shareable VS Code and Claude Code settings | `.vscode/settings.json` |
-
-### DevContainer
-
-A pre-configured development container for running Claude Code safely with `--dangerously-skip-permissions`. See [.devcontainer/README.md](./.devcontainer/README.md) for details.
-
-### settings.json
-
-Team-shared VS Code settings can be committed to `.vscode/settings.json`. This allows consistent editor configuration across the team (formatting, linting, Claude Code preferences).
-
 ## Development
 
 ### Add a new plugin to the marketplace

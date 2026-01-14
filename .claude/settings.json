@@ -1,5 +1,38 @@
 {
   "enabledPlugins": {
-    "plugin-dev@claude-plugins-official": true
+    "command-safety@sdui-marketplace": true
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "allowUnsandboxedCommands": true
+  },
+  "permissions": {
+    "allow": [
+      "Edit(./**)",
+      "Edit(/tmp/**)",
+      "Bash(uv:*)",
+      "Bash(pytest:*)",
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(docker:*)",
+      "Bash(docker-compose:*)",
+      "Bash(npm:*)",
+      "Bash(find:*)",
+      "Bash(echo:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(touch:*)"
+    ],
+    "deny": [
+      "Read(**/.env*)",
+      "Bash(sudo:*)",
+      "Bash(rm -rf:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)"
+    ]
+  },
+  "env": {
+    "CLAUDE_LINT_COMMAND": "npm run lint"
   }
 }
