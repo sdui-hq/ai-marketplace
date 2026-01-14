@@ -8,13 +8,17 @@ This plugin runs your configured lint command whenever Claude attempts to comple
 
 ## Configuration
 
-Set the `CLAUDE_LINT_COMMAND` environment variable to your lint command:
+Set the `CLAUDE_LINT_COMMAND` environment variable in your project's `.claude/settings.json`:
 
-```bash
-export CLAUDE_LINT_COMMAND="npm run lint"
-# or
-export CLAUDE_LINT_COMMAND="uv run pytest"
+```json
+{
+  "env": {
+    "CLAUDE_LINT_COMMAND": "npm run lint"
+  }
+}
 ```
+
+This ensures the lint command is project-specific and shared with your team.
 
 If not set, the hook approves immediately (no-op).
 
