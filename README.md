@@ -22,7 +22,7 @@ Shared Claude Code CLI configuration `.claude/settings.json` can be found in the
 
 A pre-configured development container with filesystem + network isolation. See [.devcontainer/README.md](./.devcontainer/README.md) for details.
 
-[!NOTE]
+> [!NOTE]
 > **Recommended for:** Autonomous Claude sessions that require additional security layers.
 > **Not for:** Quick tasks (use [Sandboxing](./.claude/settings.json)), environments without Docker.
 
