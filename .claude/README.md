@@ -16,16 +16,14 @@ Each team can extend this configuration based on their needs and share it with t
 
 ## Sandboxing
 
-Sandboxing provides OS-level isolation that:
+### How Sandboxing compares to DevContainer
 
-1. **Reduces permission fatigue** - No constant approval prompts for safe commands
-2. **Enables autonomy** - Claude can work independently within defined boundaries
-3. **Protects against attacks** - Even if Claude is manipulated, sandbox limits remain enforced
+- Sandboxing provides OS-level filesystem isolation with pre-approved commands—no Docker required. 
+- DevContainer adds network isolation on top, enabling fully autonomous operations without permission prompts.
 
-**Use sandboxing when:**
-- Running autonomous agent workflows
-- Working with untrusted dependencies
-- You want fewer interruptions while maintaining security
+[!NOTE]
+> Use Sandboxing for everyday interactive work that requires fewer permission prompts.
+> Use DevContainer for unattended/autonomous sessions that require network isolation and additional security layers.
 
 ## Personal Overrides
 
