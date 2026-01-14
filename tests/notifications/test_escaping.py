@@ -3,7 +3,7 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../plugins/notifications/scripts'))
 
-from platform_utils import escape_xml_content, escape_powershell_string
+from platform_utils import escape_xml_content, escape_powershell_string  # noqa: E402
 
 
 class TestEscapeXmlContent:

@@ -182,7 +182,6 @@ class TestSendNotification:
             assert "``n" in ps_script
 
 
-
 class TestPlaySound:
     """Test Linux sound playback. macOS/Windows use native notification sounds."""
 
