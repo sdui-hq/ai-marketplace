@@ -49,7 +49,6 @@ Install any plugin:
 ```bash
 /plugin install <plugin>@ai-marketplace
 ```
-
 ## Development
 
 ### Add a new plugin to the marketplace
