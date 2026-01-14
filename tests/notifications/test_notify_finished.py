@@ -6,7 +6,7 @@ from io import StringIO
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../plugins/notifications/scripts'))
 
-from notify_finished import main, NOTIFICATION_TITLE
+from notify_finished import main, NOTIFICATION_TITLE  # noqa: E402
 
 
 class TestMain:
