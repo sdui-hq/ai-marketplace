@@ -17,17 +17,18 @@ DevContainers provide **dual isolation** (filesystem + network) that enables aut
 
 ## Usage
 
-1. Open this repository in VS Code
-2. Click "Reopen in Container" when prompted (or use Command Palette: `Dev Containers: Reopen in Container`)
-3. Wait for the container to build
+1. Copy .devcontainer directory to your project
+2. Open your project in VS Code
+3. Click "Reopen in Container" when prompted (or use Command Palette: `Dev Containers: Reopen in Container`)
 4. Run Claude Code: `claude`
 
 ## What's Included
 
-- Node.js 20 with Claude Code pre-installed
-- Git with delta for better diffs
+- Node.js 20 
+- Claude Code
+- Git 
 - GitHub CLI (`gh`)
-- fzf for fuzzy finding
+- fzf
 
 ## Security
 
