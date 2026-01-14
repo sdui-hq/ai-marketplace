@@ -1,8 +1,6 @@
-# Shared Claude Code Configuration
+# Claude Code settings
 
-This is meant to be a starting point for shared Claude Code configuration. 
-
-Each team can extend this configuration based on their needs and share it with their team by hosting it in their own repository.
+Starting point for shared Claude Code configuration. Teams can extend this configuration based on their needs and share it within their own repository.
 
 > [!NOTE]
 > Team members can customise their own configuration further by creating `.claude/settings.local.json` file. (gitignored)
@@ -14,16 +12,14 @@ Each team can extend this configuration based on their needs and share it with t
 | `settings.json` | Team-shared configuration | Yes |
 | `settings.local.json` | Personal overrides | No (gitignored) |
 
-## Sandboxing
+## Details
 
-### How Sandboxing compares to DevContainer
+### Sandboxing
 
-- Sandboxing provides OS-level filesystem isolation with pre-approved commands—no Docker required. 
-- DevContainer adds network isolation on top, enabling fully autonomous operations without permission prompts.
+#### How Sandboxing compares to DevContainers
 
-[!NOTE]
-> Use Sandboxing for everyday interactive work that requires fewer permission prompts.
-> Use DevContainer for unattended/autonomous sessions that require network isolation and additional security layers.
+- **Sandboxing** provides OS-level filesystem isolation with pre-approved commands—no Docker required. (Recommended for everyday interactive work with fewer permission prompts.)
+- **DevContainer** adds network isolation on top, enabling fully autonomous operations. (Recommended for autonomous sessions that require additional security layers.)
 
 ## Personal Overrides
 
