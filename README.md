@@ -5,7 +5,11 @@
 
 Sdui's marketplace for AI tools
 
-## Installation
+## Shared Claude Code Configuration
+
+Shared Claude Code configuration `.claude/settings.json` can be found in the [.claude](./.claude) directory.
+
+## Plugins
 
 Add this marketplace to Claude Code:
 
@@ -19,7 +23,7 @@ Or via CLI:
 claude plugin marketplace add sdui/ai-marketplace
 ```
 
-## Available Plugins
+### Available Plugins
 
 | Plugin | Description | Type | Install |
 |--------|-------------|------|---------|
@@ -32,7 +36,6 @@ Install any plugin:
 ```bash
 /plugin install <plugin>@ai-marketplace
 ```
-
 ## Development
 
 ### Add a new plugin to the marketplace
