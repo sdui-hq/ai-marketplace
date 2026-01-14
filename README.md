@@ -31,13 +31,9 @@ A pre-configured development container with filesystem + network isolation. See 
 Add this marketplace to Claude Code:
 
 ```bash
-/plugin marketplace add sdui/ai-marketplace
-```
-
-Or via CLI:
-
-```bash
-claude plugin marketplace add sdui/ai-marketplace
+/plugin marketplace add sdui-hq/ai-marketplace
+# or via CLI
+claude plugin marketplace add sdui-hq/ai-marketplace
 ```
 
 ### Available Plugins
@@ -58,8 +54,6 @@ Install any plugin:
 ### Add a new plugin to the marketplace
 
 How to create a new plugin: [Claude Code Plugins](https://code.claude.com/docs/en/plugins)
-
-> Recommended: Use Claude Code's plugin command: [/plugin-dev](https://github.com/anthropics/claude-code/tree/main/plugins/plugin-dev)
 
 ### Test the marketplace locally
 
