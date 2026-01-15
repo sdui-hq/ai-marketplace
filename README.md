@@ -5,22 +5,36 @@
 
 Sdui's marketplace for AI tools
 
-## Shared Claude Code Configuration
+## Shared Configurations
 
-Shared Claude Code configuration `.claude/settings.json` can be found in the [.claude](./.claude) directory.
+This repository provides shared configurations for Claude Code.
+
+| Configuration | Description | Location |
+|--------------|-------------|----------|
+| [settings.json](./.claude/settings.json) | Shared Claude Code settings (plugins, sandbox, env vars, etc) | `.claude/settings.json` |
+| [DevContainer](./.devcontainer) | Containerised environment with network isolation | `.devcontainer/` |
+
+### Settings
+
+Shared CLI configuration `.claude/settings.json` can be found in the [.claude](./.claude) directory.
+
+### DevContainer
+
+A pre-configured development container with filesystem + network isolation. See [README.md](./.devcontainer/README.md) for details.
+
+> [!NOTE]
+> DevContainers are recommended for autonomous Claude sessions that require additional security layers.
+> 
+> for quick tasks with fewer permission prompts, use [Sandboxing](./.claude/settings.json)
 
 ## Plugins
 
 Add this marketplace to Claude Code:
 
 ```bash
-/plugin marketplace add sdui/ai-marketplace
-```
-
-Or via CLI:
-
-```bash
-claude plugin marketplace add sdui/ai-marketplace
+/plugin marketplace add sdui-hq/ai-marketplace
+# or via CLI
+claude plugin marketplace add sdui-hq/ai-marketplace
 ```
 
 ### Available Plugins
@@ -42,14 +56,8 @@ Install any plugin:
 
 How to create a new plugin: [Claude Code Plugins](https://code.claude.com/docs/en/plugins)
 
-> Recommended: Use Claude Code's plugin command: [/plugin-dev](https://github.com/anthropics/claude-code/tree/main/plugins/plugin-dev)
-
 ### Test the marketplace locally
 
 ```bash
 claude --plugin-dir /path/to/ai-marketplace/plugins/command-safety
 ```
-
-## License
-
-MIT

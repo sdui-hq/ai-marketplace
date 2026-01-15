@@ -1,4 +1,5 @@
 {
+  "companyAnnouncements": ["Happy coding! 🚀"],
   "enabledPlugins": {
     "command-safety@sdui-marketplace": true
   },
@@ -7,6 +8,7 @@
     "autoAllowBashIfSandboxed": true,
     "allowUnsandboxedCommands": true
   },
+  "alwaysThinkingEnabled": true,
   "permissions": {
     "allow": [
       "Edit(./**)",
@@ -24,15 +26,11 @@
       "Bash(cp:*)",
       "Bash(touch:*)"
     ],
-    "deny": [
-      "Read(**/.env*)",
-      "Bash(sudo:*)",
-      "Bash(rm -rf:*)",
-      "Bash(curl:*)",
-      "Bash(wget:*)"
-    ]
+    "deny": ["Read(**/.env*)", "Bash(sudo:*)", "Bash(rm -rf:*)", "Bash(curl:*)", "Bash(wget:*)"]
   },
   "env": {
-    "CLAUDE_LINT_COMMAND": "npm run lint"
+    "CLAUDE_LINT_COMMAND": "npm run lint",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
+    "OTEL_METRICS_EXPORTER": "otlp"
   }
 }
