@@ -2,6 +2,7 @@
 
 A containerised development environment for running Claude Code with network isolation.
 
+
 ## Why DevContainer?
 
 DevContainers provide **dual isolation** (filesystem + network) that enables autonomous Claude Code operation and provide a consistent development environment for team members.
@@ -17,6 +18,13 @@ DevContainers provide **dual isolation** (filesystem + network) that enables aut
 > Use Sandboxing for everyday interactive work that requires fewer permission prompts.
 
 ## Usage
+
+### Prerequisites
+
+1. Docker
+2. Dev Containers extension for VS Code
+
+### Steps
 
 1. Copy .devcontainer directory to your project
 2. Open your project in VS Code
