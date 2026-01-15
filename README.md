@@ -11,7 +11,7 @@ This repository provides shared configurations for Claude Code.
 
 | Configuration | Description | Location |
 |--------------|-------------|----------|
-| [settings.json](./.claude/settings.json) | Shared Claude Code settings (plugins, sandbox, env vars, etc) | `.claude/settings.json` |
+| [settings.json](./.claude/settings.json) | Shared Claude Code settings (configs, env vars, etc) | `.claude/settings.json` |
 | [DevContainer](./.devcontainer) | Containerised environment with network isolation | `.devcontainer/` |
 
 ### Settings
