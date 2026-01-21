@@ -12,6 +12,7 @@
   "permissions": {
     "allow": [
       "Edit(./**)",
+      "Read(~/**/CLAUDE.md)",
       "Edit(/tmp/**)",
       "Bash(uv:*)",
       "Bash(pytest:*)",
