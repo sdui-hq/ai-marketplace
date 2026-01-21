@@ -11,6 +11,8 @@
   "alwaysThinkingEnabled": true,
   "permissions": {
     "allow": [
+      "Read(~/**/CLAUDE.md)",
+      "Read(~/**/.claude/**)",
       "Edit(./**)",
       "Edit(/tmp/**)",
       "Bash(uv:*)",
