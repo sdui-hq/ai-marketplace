@@ -11,8 +11,9 @@
   "alwaysThinkingEnabled": true,
   "permissions": {
     "allow": [
-      "Edit(./**)",
       "Read(~/**/CLAUDE.md)",
+      "Read(~/**/.claude/**)",
+      "Edit(./**)",
       "Edit(/tmp/**)",
       "Bash(uv:*)",
       "Bash(pytest:*)",
