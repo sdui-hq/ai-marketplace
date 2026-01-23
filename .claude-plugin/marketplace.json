@@ -25,14 +25,6 @@
       "category": "quality"
     },
     {
-      "name": "pr-review",
-      "source": "./plugins/pr-review",
-      "description": "Automated PR code review with GitHub CLI integration",
-      "version": "0.1.0",
-      "keywords": ["github", "pull-request", "code-review", "automation"],
-      "category": "workflow"
-    },
-    {
       "name": "notifications",
       "source": "./plugins/notifications",
       "description": "Cross-platform desktop notifications for Claude Code events",
@@ -41,12 +33,12 @@
       "category": "productivity"
     },
     {
-      "name": "sdui-init",
-      "source": "./plugins/sdui-init",
-      "description": "Configure Claude Code telemetry with Coralogix integration",
+      "name": "sdui",
+      "source": "./plugins/sdui",
+      "description": "Sdui's command toolkit for Claude Code",
       "version": "0.1.0",
-      "keywords": ["telemetry", "coralogix", "opentelemetry", "configuration", "setup"],
-      "category": "configuration"
+      "keywords": ["github", "commands", "tools", "telemetry", "configuration"],
+      "category": "workflow"
     }
   ]
 }

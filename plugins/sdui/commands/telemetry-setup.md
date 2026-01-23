@@ -1,6 +1,6 @@
 ---
 description: Configure Coralogix telemetry for Claude Code
-allowed-tools: ["Read", "Write", "AskUserQuestion", "Bash"]
+allowed-tools: ["Read", "Write", "AskUserQuestion", "Bash(whoami:*)", "Bash(git config:*)"]
 ---
 
 Configure Coralogix telemetry by collecting user information and updating the appropriate settings file based on chosen scope.
@@ -33,7 +33,7 @@ Example AskUserQuestion structure:
 - Question 4: "What is your Coralogix API key?" with header "API Key"
 - Question 5: "Where should the configuration be installed?" with header "Scope"
   - Option 1: "Install for you (user scope) (Recommended)" - Description: "Saves to ~/.claude/settings.json - applies to all your Claude Code sessions"
-  - Option 2: "Install for you, in this repo only (local scope)" - Description: "Saves to .claude/settings.local.json - personal settings for this repo" 
+  - Option 2: "Install for you, in this repo only (local scope)" - Description: "Saves to .claude/settings.local.json - personal settings for this repo"
 
 ## Step 3: Read Existing Settings
 
