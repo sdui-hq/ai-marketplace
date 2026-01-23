@@ -39,6 +39,14 @@
       "version": "0.3.0",
       "keywords": ["notifications", "desktop", "alerts", "cross-platform"],
       "category": "productivity"
+    },
+    {
+      "name": "sdui-init",
+      "source": "./plugins/sdui-init",
+      "description": "Configure Claude Code telemetry with Coralogix integration",
+      "version": "0.1.0",
+      "keywords": ["telemetry", "coralogix", "opentelemetry", "configuration", "setup"],
+      "category": "configuration"
     }
   ]
 }
