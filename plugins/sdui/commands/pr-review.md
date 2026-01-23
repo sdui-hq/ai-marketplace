@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(gh pr view:*), Bash(gh pr diff:*), Bash(gh pr checkout:*), Bash(gh pr comment:*), Bash(git log:*), Bash(git branch:*), Bash(git symbolic-ref:*), Bash(git show-ref:*), Read, Glob, Grep
+allowed-tools: Bash(gh pr view:*), Bash(gh pr diff:*), Bash(sed:*),  Bash(gh pr checkout:*), Bash(gh pr comment:*), Bash(git log:*), Bash(git branch:*), Bash(git symbolic-ref:*), Bash(git show-ref:*), Read, Glob, Grep
 description: Automated PR code review with GitHub comment
 argument-hint: <PR_NUMBER>
 ---
