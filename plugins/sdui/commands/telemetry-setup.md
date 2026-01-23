@@ -21,7 +21,7 @@ Use the AskUserQuestion tool to collect the following information from the user.
 1. **Username** - Their identifier (e.g., `johndoe`)
 2. **Email** - Their work email (e.g., `john.doe@sdui.de`)
 3. **Team name** - Their team identifier (e.g., `platform`, `core`, `codefellas`)
-4. **Coralogix API key** - The bearer token for Coralogix (starts with `cxtp_`)
+4. **Coralogix API key** - The bearer token for Coralogix 
 5. **Scope** - Where to install the configuration
 
 Use the detected default values from Step 1 as the first option for username and email questions. If a default was detected, include "(Recommended)" in the label.
@@ -30,7 +30,7 @@ Example AskUserQuestion structure:
 - Question 1: "What is your username?" with header "Username" -- first option should be the detected username with "(Recommended)", second option can be an alternative format like "firstname.lastname"
 - Question 2: "What is your email address?" with header "Email" -- first option should be the detected git email with "(Recommended)" if available, otherwise suggest format like "firstname.lastname@sdui.de"
 - Question 3: "What is your team name?" with header "Team"
-- Question 4: "What is your Coralogix API key?" with header "API Key"
+- Question 4: "What is your Coralogix API key?" with header "API Key" - Description: "The bearer token for Coralogix (starts with `cxtp_`)"
 - Question 5: "Where should the configuration be installed?" with header "Scope"
   - Option 1: "Install for you (user scope) (Recommended)" - Description: "Saves to ~/.claude/settings.json - applies to all your Claude Code sessions"
   - Option 2: "Install for you, in this repo only (local scope)" - Description: "Saves to .claude/settings.local.json - personal settings for this repo"
@@ -78,7 +78,7 @@ Write the merged configuration back to the appropriate settings file based on th
 | User scope | `~/.claude/settings.json` |
 | Local scope | `.claude/settings.local.json` |
 
-Trim values provided by the user to remove any whitespace. eg. " john doe " should be "johndoe".
+Remove any whitespace from the values provided by the user. eg. " john doe " should be "johndoe".
 
 ## Step 6: Confirm Success
 
