@@ -45,6 +45,7 @@ claude plugin marketplace add sdui-hq/ai-marketplace
 | [command-safety](./plugins/command-safety) | Blocks dangerous bash commands before execution | Hook | `command-safety@ai-marketplace` |
 | [lint-runner](./plugins/lint-runner) | Runs linting when Claude completes tasks | Hook | `lint-runner@ai-marketplace` |
 | [notifications](./plugins/notifications) | Cross-platform desktop notifications for Claude Code events | Hook | `notifications@ai-marketplace` |
+| [better-init](./plugins/better-init) | Enhances CLAUDE.md initialization with best practices and guidelines | Skill | `better-init@ai-marketplace` |
 
 Install any plugin:
 ```bash
