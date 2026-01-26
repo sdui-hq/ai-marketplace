@@ -1,0 +1,11 @@
+{
+  "name": "better-init",
+  "version": "0.1.0",
+  "description": "Enhances CLAUDE.md initialization with best practices and guidelines",
+  "author": {
+    "name": "sdui",
+    "url": "https://sdui.de"
+  },
+  "license": "MIT",
+  "keywords": ["init", "claude-md", "best-practices", "documentation"]
+}

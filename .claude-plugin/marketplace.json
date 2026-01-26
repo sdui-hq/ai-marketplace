@@ -39,6 +39,14 @@
       "version": "0.1.0",
       "keywords": ["github", "commands", "tools", "telemetry", "configuration"],
       "category": "workflow"
+    },
+    {
+      "name": "better-init",
+      "source": "./plugins/better-init",
+      "description": "Enhances CLAUDE.md initialization with best practices and guidelines",
+      "version": "0.1.0",
+      "keywords": ["init", "claude-md", "best-practices", "documentation"],
+      "category": "workflow"
     }
   ]
 }
