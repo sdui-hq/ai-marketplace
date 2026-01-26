@@ -1,25 +1,47 @@
 # CLAUDE.md
 
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 ## Project Overview
 
-A Claude Code plugin marketplace containing all the plugins we use at Sdui. Uses Python 3.12 with `uv` package manager.
-
-## Technical Stack
-
-@pyproject.toml
+Claude Code plugin marketplace for Sdui. Python 3.12 with `uv` package manager.
 
 ## Architecture
 
-**Marketplace Structure:**
-- `.claude-plugin/marketplace.json` - Marketplace manifest listing all plugins
-- `plugins/<name>/.claude-plugin/plugin.json` - Individual plugin metadata
-- `plugins/<name>/` - Plugin directory containing the plugin code
+**Marketplace:** `.claude-plugin/marketplace.json` lists all plugins.
+
+**Plugin structure:**
+```
+plugins/<name>/
+├── .claude-plugin/plugin.json   # Metadata
+├── hooks/hooks.json             # Hook registration
+├── hooks/*.py                   # Hook implementations
+├── commands/*.md                # User-invoked commands
+└── skills/<name>/SKILL.md       # Skill definitions
+```
+
+**Current plugins:**
+- `command-safety` - PreToolUse hook blocking dangerous bash commands
+- `lint-runner` - Stop hook running lints after task completion
+- `notifications` - Desktop notifications on completion/permission prompts
+- `sdui` - Commands for PR review and telemetry setup
+- `better-init` - CLAUDE.md initialization guidance skill
+
+## Commands
+
+```bash
+uv sync --dev                    # Install dependencies
+uv run pytest tests/ -v          # Run all tests
+uv run pytest tests/test_file.py -v  # Run single test file
+uv run flake8 plugins/ tests/    # Lint
+```
 
 ## Testing
 
-Tests live in `tests/` with `conftest.py` auto-discovering plugin paths. Plugin code is tested with pytest.
+Tests in `tests/` with `conftest.py` auto-discovering plugin paths. Test files mirror plugin structure: `test_validate_command.py`, `test_lint_runner.py`, `tests/notifications/`.
 
 ## Hooks
 
-Refer to the documentation for more information when implementing hooks.
-Documentation: https://code.claude.com/docs/en/hooks 
+Hook types: PreToolUse, Stop, Notification. See https://code.claude.com/docs/en/hooks
+
+Hook response format: JSON to stdout with `decision` field (`approve`, `block`, `deny`).
