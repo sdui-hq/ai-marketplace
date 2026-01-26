@@ -1,7 +1,8 @@
 {
   "companyAnnouncements": ["Happy coding! 🚀"],
   "enabledPlugins": {
-    "command-safety@sdui-marketplace": true
+    "command-safety@sdui-marketplace": true,
+    "lint-runner@sdui-marketplace": true
   },
   "sandbox": {
     "enabled": true,
