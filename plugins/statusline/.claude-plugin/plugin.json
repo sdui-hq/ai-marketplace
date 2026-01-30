@@ -1,0 +1,10 @@
+{
+  "name": "statusline",
+  "version": "0.1.0",
+  "description": "Statusline showing directory, git branch with PR links, and context window usage",
+  "author": {
+    "name": "Damian Ermanni",
+    "url": "https://github.com/ermannidamian"
+  },
+  "keywords": ["statusline", "ui", "git", "context-window", "terminal"]
+}
