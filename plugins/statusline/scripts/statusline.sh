@@ -28,29 +28,6 @@ RESET='\033[0m'
 CURRENT_DIR=$(echo "$input" | jq -r '.workspace.current_dir // "~"')
 GIT_BRANCH=$(git -C "$CURRENT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || echo '')
 
-# Get PR URL for branch (or fall back to branch tree URL)
-BRANCH_URL=""
-if [ -n "$GIT_BRANCH" ]; then
-    # Try to get PR URL using gh CLI
-    PR_URL=$(cd "$CURRENT_DIR" && gh pr view "$GIT_BRANCH" --json url -q '.url' 2>/dev/null || echo '')
-
-    if [ -n "$PR_URL" ]; then
-        BRANCH_URL="$PR_URL"
-    else
-        # Fall back to branch tree URL
-        REMOTE_URL=$(git -C "$CURRENT_DIR" remote get-url origin 2>/dev/null || echo '')
-        if [ -n "$REMOTE_URL" ]; then
-            # Convert SSH to HTTPS format
-            if [[ "$REMOTE_URL" == git@* ]]; then
-                REMOTE_URL=$(echo "$REMOTE_URL" | sed 's/git@/https:\/\//' | sed 's/:/\//' | sed 's/\.git$//')
-            elif [[ "$REMOTE_URL" == *.git ]]; then
-                REMOTE_URL="${REMOTE_URL%.git}"
-            fi
-            BRANCH_URL="${REMOTE_URL}/tree/${GIT_BRANCH}"
-        fi
-    fi
-fi
-
 # Context window
 PCT=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
 CTX_SIZE=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
@@ -88,15 +65,8 @@ done
 # RENDER STATUSLINE
 # ====================================================================================
 if [ -n "$GIT_BRANCH" ]; then
-    if [ -n "$BRANCH_URL" ]; then
-        # Print in parts to ensure hyperlink closes properly
-        printf "› ${CYAN}%s${RESET} ${SEP} ⎇ " "$CURRENT_DIR"
-        printf '\e[24m'"${LAVENDER}"'\e]8;;%s\e\\%s\e]8;;\e\\'"${RESET}" "$BRANCH_URL" "$GIT_BRANCH"
-        printf " ${SEP} ⚡ ${CTX_COLOR}%dk/%dk${RESET} ${BAR} ${CTX_COLOR}%d%%${RESET}" "$USED_K" "$MAX_K" "$PCT"
-    else
-        printf "› ${CYAN}%s${RESET} ${SEP} ⎇ ${LAVENDER}%s${RESET} ${SEP} ⚡ ${CTX_COLOR}%dk/%dk${RESET} ${BAR} ${CTX_COLOR}%d%%${RESET}" \
-            "$CURRENT_DIR" "$GIT_BRANCH" "$USED_K" "$MAX_K" "$PCT"
-    fi
+    printf "› ${CYAN}%s${RESET} ${SEP} ⎇ ${LAVENDER}%s${RESET} ${SEP} ⚡ ${CTX_COLOR}%dk/%dk${RESET} ${BAR} ${CTX_COLOR}%d%%${RESET}" \
+        "$CURRENT_DIR" "$GIT_BRANCH" "$USED_K" "$MAX_K" "$PCT"
 else
     printf "› ${CYAN}%s${RESET} ${SEP} ⚡ ${CTX_COLOR}%dk/%dk${RESET} ${BAR} ${CTX_COLOR}%d%%${RESET}" \
         "$CURRENT_DIR" "$USED_K" "$MAX_K" "$PCT"
