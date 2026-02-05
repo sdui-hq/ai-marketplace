@@ -49,7 +49,10 @@ Merge the following statusline configuration into the settings file, preserving 
 
 ```json
 {
-  "statusline": "bash <SCRIPT_PATH>"
+  "statusLine": {
+    "type": "command",
+    "command": "bash <SCRIPT_PATH>"
+  }
 }
 ```
 
