@@ -24,7 +24,8 @@ plugins/<name>/
 - `command-safety` - PreToolUse hook blocking dangerous bash commands
 - `lint-runner` - Stop hook running lints after task completion
 - `notifications` - Desktop notifications on completion/permission prompts
-- `sdui` - Commands for PR review and telemetry setup
+- `sdui-pr-review` - Automated PR code review with GitHub comment
+- `sdui-telemetry` - Configure Coralogix telemetry for Claude Code
 - `better-init` - CLAUDE.md initialization guidance skill
 - `sdui-eng-design` - Feature design document command
 

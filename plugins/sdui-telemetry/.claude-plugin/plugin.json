@@ -1,0 +1,8 @@
+{
+  "name": "sdui-telemetry",
+  "version": "0.1.0",
+  "description": "Configure Coralogix telemetry for Claude Code",
+  "author": { "name": "sdui", "url": "https://sdui.de" },
+  "license": "MIT",
+  "keywords": ["telemetry", "coralogix", "configuration", "commands"]
+}

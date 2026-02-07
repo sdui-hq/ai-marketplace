@@ -41,12 +41,14 @@ claude plugin marketplace add sdui-hq/ai-marketplace
 
 | Plugin | Description | Type | Install |
 |--------|-------------|------|---------|
-| [sdui](./plugins/sdui) | Sdui's command toolkit (`/sdui:pr-review`, `/sdui:telemetry-setup`) | Command | `sdui@ai-marketplace` |
+| [sdui-pr-review](./plugins/sdui-pr-review) | Automated PR code review with GitHub comment (`/sdui-pr-review:review`) | Command | `sdui-pr-review@ai-marketplace` |
+| [sdui-telemetry](./plugins/sdui-telemetry) | Configure Coralogix telemetry for Claude Code (`/sdui-telemetry:setup`) | Command | `sdui-telemetry@ai-marketplace` |
 | [command-safety](./plugins/command-safety) | Blocks dangerous bash commands before execution | Hook | `command-safety@ai-marketplace` |
 | [lint-runner](./plugins/lint-runner) | Runs linting when Claude completes tasks | Hook | `lint-runner@ai-marketplace` |
 | [notifications](./plugins/notifications) | Cross-platform desktop notifications for Claude Code events | Hook | `notifications@ai-marketplace` |
 | [better-init](./plugins/better-init) | Enhances CLAUDE.md initialization with best practices and guidelines | Skill | `better-init@ai-marketplace` |
 | [sdui-eng-design](./plugins/sdui-eng-design) | Generate feature design docs (`/feature-design-doc`) | Command | `sdui-eng-design@ai-marketplace` |
+| [statusline](./plugins/statusline) | Statusline with git integration, PR and context window progress bar | Hook | `statusline@ai-marketplace` |
 
 Install any plugin:
 ```bash

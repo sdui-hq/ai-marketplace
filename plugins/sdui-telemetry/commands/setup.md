@@ -21,7 +21,7 @@ Use the AskUserQuestion tool to collect the following information from the user.
 1. **Username** - Their identifier (e.g., `johndoe`)
 2. **Email** - Their work email (e.g., `john.doe@sdui.de`)
 3. **Team name** - Their team identifier (e.g., `platform`, `core`, `codefellas`)
-4. **Coralogix API key** - The bearer token for Coralogix 
+4. **Coralogix API key** - The bearer token for Coralogix
 5. **Scope** - Where to install the configuration
 
 Use the detected default values from Step 1 as the first option for username and email questions. If a default was detected, include "(Recommended)" in the label.

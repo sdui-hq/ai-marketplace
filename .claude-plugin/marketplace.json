@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "sdui-marketplace",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Sdui's marketplace for AI tools",
 
   "owner": {
@@ -33,11 +33,19 @@
       "category": "productivity"
     },
     {
-      "name": "sdui",
-      "source": "./plugins/sdui",
-      "description": "Sdui's command toolkit for Claude Code",
+      "name": "sdui-pr-review",
+      "source": "./plugins/sdui-pr-review",
+      "description": "Automated PR code review with GitHub comment",
       "version": "0.1.0",
-      "keywords": ["github", "commands", "tools", "telemetry", "configuration"],
+      "keywords": ["github", "pr", "code-review", "commands"],
+      "category": "workflow"
+    },
+    {
+      "name": "sdui-telemetry",
+      "source": "./plugins/sdui-telemetry",
+      "description": "Configure Coralogix telemetry for Claude Code",
+      "version": "0.1.0",
+      "keywords": ["telemetry", "coralogix", "configuration", "commands"],
       "category": "workflow"
     },
     {
