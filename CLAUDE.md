@@ -26,6 +26,14 @@ plugins/<name>/
 - `notifications` - Desktop notifications on completion/permission prompts
 - `sdui` - Commands for PR review and telemetry setup
 - `better-init` - CLAUDE.md initialization guidance skill
+- `sdui-eng-design` - Feature design document command
+
+## Plugin Creation Rules
+
+When creating a new plugin, always:
+1. Add it to the Available Plugins table in `README.md`
+2. Add it to `.claude-plugin/marketplace.json`
+3. Create a concise `README.md` inside the plugin directory focused on developer onboarding (usage, examples, what it does)
 
 ## Commands
 

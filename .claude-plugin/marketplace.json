@@ -47,6 +47,14 @@
       "version": "0.1.0",
       "keywords": ["init", "claude-md", "best-practices", "documentation"],
       "category": "workflow"
+    },
+    {
+      "name": "sdui-eng-design",
+      "source": "./plugins/sdui-eng-design",
+      "description": "Engineering design document command for structured feature planning",
+      "version": "0.1.0",
+      "keywords": ["design", "documentation", "feature", "planning", "engineering"],
+      "category": "workflow"
     }
   ]
 }

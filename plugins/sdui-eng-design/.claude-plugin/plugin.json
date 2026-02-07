@@ -1,0 +1,11 @@
+{
+  "name": "sdui-eng-design",
+  "version": "0.1.0",
+  "description": "Engineering design document command for structured feature planning",
+  "author": {
+    "name": "sdui",
+    "url": "https://sdui.de"
+  },
+  "license": "MIT",
+  "keywords": ["design", "documentation", "feature", "planning", "engineering"]
+}
