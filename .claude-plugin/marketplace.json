@@ -49,6 +49,14 @@
       "category": "workflow"
     },
     {
+      "name": "sdui-eng-design",
+      "source": "./plugins/sdui-eng-design",
+      "description": "Engineering design document command for structured feature planning",
+      "version": "0.1.0",
+      "keywords": ["design", "documentation", "feature", "planning", "engineering"],
+      "category": "workflow"
+    },
+    {
       "name": "statusline",
       "source": "./plugins/statusline",
       "description": "Statusline with git integration, PR and context window progress bar",
