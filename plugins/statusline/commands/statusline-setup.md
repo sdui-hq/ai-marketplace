@@ -1,6 +1,6 @@
 ---
 description: Configure statusline for Claude Code
-allowed-tools: ["Read", "Write", "AskUserQuestion"]
+allowed-tools: ["Read", "Write", "Edit", "AskUserQuestion"]
 ---
 
 Configure the statusline by updating the appropriate settings file based on chosen scope.
@@ -40,10 +40,46 @@ Ask the user which applies:
   - Option 1: "Via marketplace (Recommended)" - Description: "Plugin was installed using Claude Code's plugin install command"
   - Option 2: "Local development" - Description: "Testing locally from the repository"
 
-If marketplace: Use `~/.claude/plugins/cache/sdui-marketplace/statusline/0.1.0/scripts/statusline.sh`
+If marketplace: Use `~/.claude/plugins/cache/sdui-marketplace/statusline/0.2.0/scripts/statusline.sh`
 If local development: Ask user to provide the absolute path to the statusline.sh script.
 
-## Step 4: Merge Configuration
+## Step 4: Customize Sections
+
+Use the AskUserQuestion tool to ask two questions:
+
+**Question 1 (multiSelect):**
+- Question: "Which sections do you want to show in the statusline?"
+- Header: "Sections"
+- multiSelect: true
+- Options:
+  - Option 1: "Session name (Recommended)" - Description: "Shows the current session name (looked up from Claude's session index)"
+  - Option 2: "Git branch (Recommended)" - Description: "Shows the current git branch name"
+
+**Question 2:**
+- Question: "Max characters for session name before truncating?"
+- Header: "Truncate"
+- Options:
+  - Option 1: "30 (Recommended)" - Description: "Truncate session names longer than 30 characters"
+  - Option 2: "No truncation" - Description: "Show full session name regardless of length"
+  - Option 3: "20" - Description: "Truncate session names longer than 20 characters"
+
+The user can also pick "Other" (built into AskUserQuestion) to provide a custom numeric value.
+
+## Step 5: Apply Section Preferences
+
+Read the statusline script at the path determined in Step 3. Using the Edit tool, update the CONFIGURATION variables:
+
+- If the user selected "Session name" in Question 1, set `SHOW_SESSION=true`, otherwise set `SHOW_SESSION=false`
+- If the user selected "Git branch" in Question 1, set `SHOW_BRANCH=true`, otherwise set `SHOW_BRANCH=false`
+- For Question 2:
+  - If "30" was selected, set `MAX_SESSION_LEN=30`
+  - If "No truncation" was selected, set `MAX_SESSION_LEN=0`
+  - If "20" was selected, set `MAX_SESSION_LEN=20`
+  - If the user provided a custom value via "Other", set `MAX_SESSION_LEN=<custom_value>`
+
+Each variable is on its own line in the CONFIGURATION section at the top of the script. Use Edit to replace each line individually.
+
+## Step 6: Merge Configuration
 
 Merge the following statusline configuration into the settings file, preserving any existing settings:
 
@@ -58,23 +94,24 @@ Merge the following statusline configuration into the settings file, preserving 
 
 Replace `<SCRIPT_PATH>` with the determined script path from Step 3.
 
-## Step 5: Write Updated Settings
+## Step 7: Write Updated Settings
 
 Write the merged configuration back to the appropriate settings file based on the scope selection with proper JSON formatting.
 
-## Step 6: Confirm Success
+## Step 8: Confirm Success
 
 After writing the file, confirm to the user:
 - Statusline has been configured successfully
 - The statusline will appear on the next Claude Code session
 - Mention the specific file path based on their scope selection
-- Note that the statusline requires `jq` and `gh` CLI to be installed for full functionality
+- Note that the statusline requires `jq` to be installed for full functionality
 
 ## Features Summary
 
 The statusline displays:
 - Current working directory
-- Git branch name (clickable link to PR or branch on GitHub)
+- Session name (from Claude's session index)
+- Git branch name
 - Context window usage with color-coded progress bar:
   - Mint (green): < 50% usage
   - Amber (yellow): 50-80% usage
