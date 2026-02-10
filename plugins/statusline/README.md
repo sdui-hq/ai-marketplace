@@ -5,6 +5,7 @@ A customizable statusline for Claude Code that displays essential information at
 ## Features
 
 - **Current Directory**: Shows your working directory
+- **Session Name**: Displays the current session name (looked up from Claude's internal session index file — this may break in future Claude Code updates as the file is not part of the public API)
 - **Git Branch**: Displays the current git branch
 - **Context Window Progress**: Visual progress bar showing context usage
   - Mint (green): < 50% usage
@@ -29,7 +30,10 @@ Add to your `~/.claude/settings.json` (user-wide) or `.claude/settings.local.jso
 
 ```json
 {
-  "statusline": "bash ~/.claude/plugins/cache/sdui-marketplace/statusline/0.1.0/scripts/statusline.sh"
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/plugins/cache/sdui-marketplace/statusline/0.2.0/scripts/statusline.sh"
+  }
 }
 ```
 
@@ -58,8 +62,13 @@ sudo apt install jq
 The script can be customized by editing the configuration section:
 
 - `BAR_LENGTH`: Number of segments in the progress bar (default: 10)
-- `SEP`: Separator character between sections (default: `|`)
+- `SEP`: Separator character between sections (default: `┃`)
+- `SHOW_SESSION`: Show session name in statusline (default: `true`)
+- `SHOW_BRANCH`: Show git branch in statusline (default: `true`)
+- `MAX_SESSION_LEN`: Truncate session name after N characters (default: 30, set to 0 for no truncation)
 - Colors can be adjusted using ANSI color codes
+
+You can also run `/statusline-config` to interactively toggle sections and truncation settings. The `/statusline-setup` command also offers these options during initial setup.
 
 ## Troubleshooting
 

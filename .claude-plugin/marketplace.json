@@ -67,8 +67,8 @@
     {
       "name": "statusline",
       "source": "./plugins/statusline",
-      "description": "Statusline with git integration, PR and context window progress bar",
-      "version": "0.1.0",
+      "description": "Statusline showing directory, session name, git branch and context window usage",
+      "version": "0.2.0",
       "keywords": ["statusline", "ui", "git", "context-window", "productivity"],
       "category": "productivity"
     }

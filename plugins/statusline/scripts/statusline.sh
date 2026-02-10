@@ -1,6 +1,6 @@
 #!/bin/bash
 # Claude Code Statusline
-set -euo pipefail
+set -uo pipefail
 
 input=$(cat)
 
@@ -9,6 +9,9 @@ input=$(cat)
 # ====================================================================================
 BAR_LENGTH=10
 SEP='┃'
+SHOW_SESSION=true
+SHOW_BRANCH=true
+MAX_SESSION_LEN=30
 
 # Colors
 CYAN='\033[36m'
@@ -20,17 +23,43 @@ MINT_BG='\033[48;5;157m'
 AMBER_BG='\033[48;5;221m'
 CORAL_BG='\033[48;5;203m'
 GRAY_BG='\033[48;5;238m'
+SOFT_WHITE='\033[38;5;252m'
 RESET='\033[0m'
 
 # ====================================================================================
 # DATA COLLECTION
 # ====================================================================================
-CURRENT_DIR=$(echo "$input" | jq -r '.workspace.current_dir // "~"')
-GIT_BRANCH=$(git -C "$CURRENT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || echo '')
+CURRENT_DIR=$(echo "$input" | jq -r '.workspace.current_dir // "~"' 2>/dev/null || echo '~')
+
+GIT_BRANCH=""
+if [ "$SHOW_BRANCH" = true ]; then
+    GIT_BRANCH=$(git -C "$CURRENT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || echo '')
+fi
+
+SESSION_NAME=""
+if [ "$SHOW_SESSION" = true ]; then
+    SESSION_ID=$(echo "$input" | jq -r '.session_id // ""' 2>/dev/null || echo '')
+    if [ -n "$SESSION_ID" ]; then
+        PROJECT_DIR=$(echo "$input" | jq -r '.workspace.project_dir // ""' 2>/dev/null || echo '')
+        if [ -n "$PROJECT_DIR" ]; then
+            ENCODED_PATH=$(echo "$PROJECT_DIR" | sed 's|/|-|g')
+            INDEX_FILE="$HOME/.claude/projects/${ENCODED_PATH}/sessions-index.json"
+            if [ -f "$INDEX_FILE" ]; then
+                SESSION_NAME=$(jq -r --arg sid "$SESSION_ID" \
+                    '.entries[] | select(.sessionId == $sid) | .summary // empty' \
+                    "$INDEX_FILE" 2>/dev/null || echo '')
+            fi
+        fi
+    fi
+    # Truncate if needed
+    if [ "$MAX_SESSION_LEN" -gt 0 ] && [ ${#SESSION_NAME} -gt $MAX_SESSION_LEN ]; then
+        SESSION_NAME="${SESSION_NAME:0:$MAX_SESSION_LEN}..."
+    fi
+fi
 
 # Context window
-PCT=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
-CTX_SIZE=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
+PCT=$(echo "$input" | jq -r '.context_window.used_percentage // 0' 2>/dev/null | cut -d. -f1 || echo '0')
+CTX_SIZE=$(echo "$input" | jq -r '.context_window.context_window_size // 200000' 2>/dev/null || echo '200000')
 MAX_K=$((CTX_SIZE / 1000))
 USED_K=$((PCT * MAX_K / 100))
 FILLED=$((PCT / 10))
@@ -64,10 +93,13 @@ done
 # ====================================================================================
 # RENDER STATUSLINE
 # ====================================================================================
-if [ -n "$GIT_BRANCH" ]; then
-    printf "› ${CYAN}%s${RESET} ${SEP} ⎇ ${LAVENDER}%s${RESET} ${SEP} ⚡ ${CTX_COLOR}%dk/%dk${RESET} ${BAR} ${CTX_COLOR}%d%%${RESET}" \
-        "$CURRENT_DIR" "$GIT_BRANCH" "$USED_K" "$MAX_K" "$PCT"
-else
-    printf "› ${CYAN}%s${RESET} ${SEP} ⚡ ${CTX_COLOR}%dk/%dk${RESET} ${BAR} ${CTX_COLOR}%d%%${RESET}" \
-        "$CURRENT_DIR" "$USED_K" "$MAX_K" "$PCT"
+MIDDLE=""
+if [ -n "$SESSION_NAME" ]; then
+    MIDDLE="${MIDDLE} ${SEP} ◉ ${SOFT_WHITE}${SESSION_NAME}${RESET}"
 fi
+if [ -n "$GIT_BRANCH" ]; then
+    MIDDLE="${MIDDLE} ${SEP} ⎇ ${LAVENDER}${GIT_BRANCH}${RESET}"
+fi
+
+printf "› ${CYAN}%s${RESET}%b ${SEP} ⚡ ${CTX_COLOR}%dk/%dk${RESET} ${BAR} ${CTX_COLOR}%d%%${RESET}" \
+    "$CURRENT_DIR" "$MIDDLE" "$USED_K" "$MAX_K" "$PCT"
