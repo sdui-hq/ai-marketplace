@@ -5,13 +5,31 @@ set -uo pipefail
 input=$(cat)
 
 # ====================================================================================
+# DEPENDENCY CHECK
+# ====================================================================================
+if ! command -v jq >/dev/null 2>&1; then
+    printf "› %s [jq required – see statusline plugin README]" "$(pwd)"
+    exit 0
+fi
+
+# ====================================================================================
 # CONFIGURATION
 # ====================================================================================
+CONFIG_FILE="$HOME/.claude/statusline-config.json"
+
+if [ -f "$CONFIG_FILE" ]; then
+    SHOW_SESSION=$(jq -r '.show_session // true' "$CONFIG_FILE" 2>/dev/null || echo 'true')
+    SHOW_BRANCH=$(jq -r '.show_branch // true' "$CONFIG_FILE" 2>/dev/null || echo 'true')
+    MAX_SESSION_LEN=$(jq -r '.max_session_len // 30' "$CONFIG_FILE" 2>/dev/null || echo '30')
+else
+    SHOW_SESSION=true
+    SHOW_BRANCH=true
+    MAX_SESSION_LEN=30
+fi
+
+# Script-level constants (customize by editing script directly)
 BAR_LENGTH=10
 SEP='┃'
-SHOW_SESSION=true
-SHOW_BRANCH=true
-MAX_SESSION_LEN=30
 
 # Colors
 CYAN='\033[36m'
@@ -52,17 +70,18 @@ if [ "$SHOW_SESSION" = true ]; then
         fi
     fi
     # Truncate if needed
-    if [ "$MAX_SESSION_LEN" -gt 0 ] && [ ${#SESSION_NAME} -gt $MAX_SESSION_LEN ]; then
+    if [ "$MAX_SESSION_LEN" -gt 0 ] && [ "${#SESSION_NAME}" -gt "$MAX_SESSION_LEN" ]; then
         SESSION_NAME="${SESSION_NAME:0:$MAX_SESSION_LEN}..."
     fi
 fi
 
 # Context window
 PCT=$(echo "$input" | jq -r '.context_window.used_percentage // 0' 2>/dev/null | cut -d. -f1 || echo '0')
+PCT=${PCT:-0}
 CTX_SIZE=$(echo "$input" | jq -r '.context_window.context_window_size // 200000' 2>/dev/null || echo '200000')
 MAX_K=$((CTX_SIZE / 1000))
 USED_K=$((PCT * MAX_K / 100))
-FILLED=$((PCT / 10))
+FILLED=$((PCT * BAR_LENGTH / 100))
 
 # ====================================================================================
 # CONTEXT COLOR (based on usage percentage)

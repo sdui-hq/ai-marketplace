@@ -1,16 +1,25 @@
 # Statusline Plugin
 
-A customizable statusline for Claude Code that displays essential information at a glance.
+## ⚠️ Upgrading from v0.2.0
+
+After updating the plugin **re-run** the setup command to update the script path in your settings:
+
+    /statusline:setup
+
+- **If you had customized sections** in v0.2.0 (by editing the script), those settings now live in `~/.claude/statusline-config.json` and persist across future updates.
+- Re-run `/statusline:config` to restore your preferences.
 
 ## Features
 
 - **Current Directory**: Shows your working directory
-- **Session Name**: Displays the current session name (looked up from Claude's internal session index file — this may break in future Claude Code updates as the file is not part of the public API)
+- **Session Name**: Displays the current session name (resolved via Claude Code's internal session index — if this stops working after a Claude Code update, the session name section will gracefully hide itself)
 - **Git Branch**: Displays the current git branch
 - **Context Window Progress**: Visual progress bar showing context usage
   - Mint (green): < 50% usage
   - Amber (yellow): 50-80% usage
   - Coral (red): > 80% usage
+
+> **Requires `jq`** — If not installed, the statusline shows a fallback with install instructions.
 
 ## Installation
 
@@ -19,7 +28,7 @@ A customizable statusline for Claude Code that displays essential information at
 After installing the plugin, run the setup command:
 
 ```
-/statusline-setup
+/statusline:setup
 ```
 
 This will guide you through configuring the statusline for your Claude Code installation.
@@ -32,7 +41,7 @@ Add to your `~/.claude/settings.json` (user-wide) or `.claude/settings.local.jso
 {
   "statusLine": {
     "type": "command",
-    "command": "bash ~/.claude/plugins/cache/sdui-marketplace/statusline/0.2.0/scripts/statusline.sh"
+    "command": "~/.claude/plugins/cache/sdui-marketplace/statusline/<version>/scripts/statusline.sh"
   }
 }
 ```
@@ -59,16 +68,24 @@ sudo apt install jq
 
 ## Customization
 
-The script can be customized by editing the configuration section:
+Run `/statusline:config` to interactively configure which sections appear. Settings are saved to `~/.claude/statusline-config.json` and persist across plugin updates.
 
-- `BAR_LENGTH`: Number of segments in the progress bar (default: 10)
-- `SEP`: Separator character between sections (default: `┃`)
-- `SHOW_SESSION`: Show session name in statusline (default: `true`)
-- `SHOW_BRANCH`: Show git branch in statusline (default: `true`)
-- `MAX_SESSION_LEN`: Truncate session name after N characters (default: 30, set to 0 for no truncation)
-- Colors can be adjusted using ANSI color codes
+Config file format:
 
-You can also run `/statusline-config` to interactively toggle sections and truncation settings. The `/statusline-setup` command also offers these options during initial setup.
+```json
+{
+  "show_session": true,
+  "show_branch": true,
+  "max_session_len": 30
+}
+```
+
+Available keys:
+- `show_session`: Show session name in statusline (default: `true`)
+- `show_branch`: Show git branch in statusline (default: `true`)
+- `max_session_len`: Truncate session name after N characters (default: 30, set to 0 for no truncation)
+
+Script-level constants (`BAR_LENGTH`, `SEP`, colors) can be changed by editing the script directly. Note that these will be overwritten on plugin update.
 
 ## Troubleshooting
 

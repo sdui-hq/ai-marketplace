@@ -1,6 +1,6 @@
 ---
 description: Configure statusline for Claude Code
-allowed-tools: ["Read", "Write", "Edit", "AskUserQuestion"]
+allowed-tools: ["Read", "Write", "Edit", "Bash", "AskUserQuestion"]
 ---
 
 Configure the statusline by updating the appropriate settings file based on chosen scope.
@@ -40,7 +40,7 @@ Ask the user which applies:
   - Option 1: "Via marketplace (Recommended)" - Description: "Plugin was installed using Claude Code's plugin install command"
   - Option 2: "Local development" - Description: "Testing locally from the repository"
 
-If marketplace: Use `~/.claude/plugins/cache/sdui-marketplace/statusline/0.2.0/scripts/statusline.sh`
+If marketplace: Read the plugin version by listing `~/.claude/plugins/cache/sdui-marketplace/statusline/` to find the installed version directory, then construct the path: `~/.claude/plugins/cache/sdui-marketplace/statusline/<version>/scripts/statusline.sh`
 If local development: Ask user to provide the absolute path to the statusline.sh script.
 
 ## Step 4: Customize Sections
@@ -67,17 +67,15 @@ The user can also pick "Other" (built into AskUserQuestion) to provide a custom 
 
 ## Step 5: Apply Section Preferences
 
-Read the statusline script at the path determined in Step 3. Using the Edit tool, update the CONFIGURATION variables:
+Write the user's preferences to `~/.claude/statusline-config.json`:
 
-- If the user selected "Session name" in Question 1, set `SHOW_SESSION=true`, otherwise set `SHOW_SESSION=false`
-- If the user selected "Git branch" in Question 1, set `SHOW_BRANCH=true`, otherwise set `SHOW_BRANCH=false`
-- For Question 2:
-  - If "30" was selected, set `MAX_SESSION_LEN=30`
-  - If "No truncation" was selected, set `MAX_SESSION_LEN=0`
-  - If "20" was selected, set `MAX_SESSION_LEN=20`
-  - If the user provided a custom value via "Other", set `MAX_SESSION_LEN=<custom_value>`
+1. Build a JSON object from the user's Step 4 selections:
+   - `show_session`: `true` if "Session name" selected, else `false`
+   - `show_branch`: `true` if "Git branch" selected, else `false`
+   - `max_session_len`: numeric value from truncation choice (30, 20, 0, or custom)
+2. Write the JSON file using the Write tool
 
-Each variable is on its own line in the CONFIGURATION section at the top of the script. Use Edit to replace each line individually.
+This config file persists across plugin updates.
 
 ## Step 6: Merge Configuration
 
@@ -87,18 +85,36 @@ Merge the following statusline configuration into the settings file, preserving 
 {
   "statusLine": {
     "type": "command",
-    "command": "bash <SCRIPT_PATH>"
+    "command": "<SCRIPT_PATH>"
   }
 }
 ```
 
 Replace `<SCRIPT_PATH>` with the determined script path from Step 3.
 
+Before writing the config, ensure the script is executable by running `chmod +x <SCRIPT_PATH>`.
+
 ## Step 7: Write Updated Settings
 
 Write the merged configuration back to the appropriate settings file based on the scope selection with proper JSON formatting.
 
-## Step 8: Confirm Success
+## Step 8: Verify Configuration
+
+Test the statusline with sample data:
+
+1. Run via Bash:
+   ```
+   echo '{"workspace":{"current_dir":"/home/user/project","project_dir":"/home/user/project"},"session_id":"preview","context_window":{"used_percentage":42,"context_window_size":200000}}' | <SCRIPT_PATH>
+   ```
+   Replace `<SCRIPT_PATH>` with the path determined in Step 3.
+
+2. Show the output to the user: "Here's a preview of your statusline:"
+
+3. Note: Session name won't appear (test ID doesn't exist in index). Git branch shows the real current branch.
+
+4. If the command fails, suggest checking jq installation and script permissions.
+
+## Step 9: Confirm Success
 
 After writing the file, confirm to the user:
 - Statusline has been configured successfully
