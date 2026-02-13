@@ -1,7 +1,7 @@
 {
   "name": "statusline",
-  "version": "0.1.0",
-  "description": "Statusline showing directory, git branch and context window usage",
+  "version": "0.3.0",
+  "description": "Statusline showing directory, session name, git branch and context window usage",
   "author": {
     "name": "Damian Ermanni",
     "url": "https://github.com/ermannidamian"
